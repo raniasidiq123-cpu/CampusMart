@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAMPUS MART — Jual Beli, Sewa, &amp; Barter Barang Mahasiswa Lintas Kampus</title>
+    <!-- Favicon pakai logo sendiri -->
+    <link rel="icon" type="image/png" href="logo.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter -->
@@ -53,8 +55,12 @@
                 
                 <!-- Brand Logo & Tagline (Klik untuk Reset Filter) -->
                 <button type="button" onclick="resetFilters()" class="flex items-center gap-3 text-left focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-2xl p-1 -ml-1 transition-all">
-                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 shrink-0">
-                        <i data-lucide="recycle" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-sm shrink-0">
+                        <img src="logo.png" alt="Logo Campus Mart" class="w-full h-full object-contain p-1"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="hidden w-full h-full bg-gradient-to-br from-emerald-600 to-teal-700 items-center justify-center text-white">
+                            <i data-lucide="recycle" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                        </div>
                     </div>
                     <div class="min-w-0">
                         <div class="flex items-center gap-2">
@@ -190,7 +196,7 @@
     ====================================================================== -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         
-        <!-- Panel Ringkasan "Pengajuan Transaksi Terbaru" (Tampil langsung di halaman utama saat ada aktivitas) -->
+        <!-- Panel Ringkasan "Pengajuan Transaksi Terbaru" -->
         <section id="latest-activity-panel" class="hidden bg-white rounded-2xl border-2 border-emerald-200 shadow-md shadow-emerald-600/5 overflow-hidden fade-in" aria-live="polite">
             <div class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white flex flex-wrap items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
@@ -237,8 +243,12 @@
                 <!-- Kolom 1: Tentang Campus Mart -->
                 <div>
                     <div class="flex items-center gap-2.5 mb-3">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white">
-                            <i data-lucide="recycle" class="w-5 h-5"></i>
+                        <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center overflow-hidden p-1 shrink-0">
+                            <img src="logo.png" alt="Logo Campus Mart" class="w-full h-full object-contain"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full bg-emerald-600 items-center justify-center text-white rounded-lg">
+                                <i data-lucide="recycle" class="w-5 h-5"></i>
+                            </div>
                         </div>
                         <span class="text-lg font-extrabold text-white tracking-tight">CAMPUS <span class="text-emerald-400">MART</span></span>
                     </div>
@@ -317,7 +327,7 @@
             <form id="tx-form" onsubmit="submitTransaction(event)" class="p-6 space-y-4">
                 <!-- Ringkasan Barang -->
                 <div class="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-                    <div id="tx-item-icon-box" class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                    <div id="tx-item-icon-box" class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 overflow-hidden">
                         <i data-lucide="package" class="w-6 h-6"></i>
                     </div>
                     <div class="min-w-0 flex-1">
@@ -328,7 +338,7 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Fields Container (Diisi via JS sesuai tipe: Jual Beli / Sewa / Barter) -->
+                <!-- Dynamic Fields Container -->
                 <div id="tx-dynamic-fields" class="space-y-4"></div>
 
                 <!-- Pilih Campus Drop-Point -->
@@ -338,7 +348,6 @@
                     </label>
                     <select id="tx-droppoint" name="dropPoint" required
                         class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        <!-- Opsi diisi otomatis -->
                     </select>
                 </div>
 
@@ -381,7 +390,25 @@
                 </button>
             </div>
 
-            <form id="add-form" onsubmit="submitNewItem(event)" class="p-6 space-y-4">
+            <form id="add-form" onsubmit="submitNewItem(event)" class="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+                <!-- Upload Foto Barang -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Foto Barang (Opsional)</label>
+                    <label for="new-image" class="cursor-pointer flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 hover:bg-emerald-50/50 hover:border-emerald-400 transition-all text-xs font-semibold text-slate-600">
+                        <i data-lucide="image-plus" class="w-4 h-4 text-emerald-600"></i>
+                        <span id="upload-label-text">Pilih Foto dari Galeri / Laptop</span>
+                        <input type="file" id="new-image" accept="image/*" onchange="handleImageUpload(event)" class="hidden">
+                    </label>
+                    <!-- Preview Foto -->
+                    <div id="image-preview-wrapper" class="hidden mt-2.5 relative rounded-xl overflow-hidden border border-slate-200 bg-slate-100 h-36">
+                        <img id="image-preview" src="" alt="Preview Foto Barang" class="w-full h-full object-cover">
+                        <button type="button" onclick="clearUploadedImage()" title="Hapus foto"
+                            class="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-900/75 text-white hover:bg-rose-600 transition-colors">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <div>
                     <label for="new-name" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Barang</label>
                     <input type="text" id="new-name" name="name" required placeholder="Contoh: Setrika Listrik Philips / Buku Manajemen Keuangan"
@@ -539,7 +566,8 @@
                 dropPoint: "Kantin Pusat ULM",
                 icon: "table",
                 bgGradient: "from-emerald-50 to-teal-100",
-                iconColor: "text-emerald-600"
+                iconColor: "text-emerald-600",
+                image: ""
             },
             {
                 id: 2,
@@ -555,7 +583,8 @@
                 dropPoint: "Perpustakaan Poliban",
                 icon: "calculator",
                 bgGradient: "from-blue-50 to-indigo-100",
-                iconColor: "text-blue-600"
+                iconColor: "text-blue-600",
+                image: ""
             },
             {
                 id: 3,
@@ -571,7 +600,8 @@
                 dropPoint: "Gerbang Utama UNISKA",
                 icon: "book-open",
                 bgGradient: "from-purple-50 to-fuchsia-100",
-                iconColor: "text-purple-600"
+                iconColor: "text-purple-600",
+                image: ""
             },
             {
                 id: 4,
@@ -587,7 +617,8 @@
                 dropPoint: "Bundaran Fakultas Ekonomi ULM",
                 icon: "bed",
                 bgGradient: "from-emerald-50 to-teal-100",
-                iconColor: "text-emerald-600"
+                iconColor: "text-emerald-600",
+                image: ""
             },
             {
                 id: 5,
@@ -603,7 +634,8 @@
                 dropPoint: "Lobby Utama Kampus UM",
                 icon: "shirt",
                 bgGradient: "from-blue-50 to-indigo-100",
-                iconColor: "text-blue-600"
+                iconColor: "text-blue-600",
+                image: ""
             },
             {
                 id: 6,
@@ -619,7 +651,8 @@
                 dropPoint: "Masjid Kampus UIN Antasari",
                 icon: "fan",
                 bgGradient: "from-purple-50 to-fuchsia-100",
-                iconColor: "text-purple-600"
+                iconColor: "text-purple-600",
+                image: ""
             },
             {
                 id: 7,
@@ -635,7 +668,8 @@
                 dropPoint: "Kantin Teknik Poliban",
                 icon: "lamp-desk",
                 bgGradient: "from-emerald-50 to-teal-100",
-                iconColor: "text-emerald-600"
+                iconColor: "text-emerald-600",
+                image: ""
             },
             {
                 id: 8,
@@ -651,7 +685,8 @@
                 dropPoint: "Perpustakaan Pusat ULM",
                 icon: "utensils",
                 bgGradient: "from-emerald-50 to-teal-100",
-                iconColor: "text-emerald-600"
+                iconColor: "text-emerald-600",
+                image: ""
             },
             {
                 id: 9,
@@ -667,7 +702,8 @@
                 dropPoint: "Taman Kampus UNISKA",
                 icon: "camera",
                 bgGradient: "from-blue-50 to-indigo-100",
-                iconColor: "text-blue-600"
+                iconColor: "text-blue-600",
+                image: ""
             }
         ];
 
@@ -678,6 +714,7 @@
         let itemsData = [];
         let myActivities = [];
         let lastSubmittedActivityId = null;
+        let uploadedImageDataUrl = '';
 
         // Helper aman untuk Lucide Icons
         function refreshIcons() {
@@ -760,6 +797,50 @@
             }).format(angka);
         }
 
+        // Handle Upload & Kompresi Foto Barang
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const maxWidth = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    uploadedImageDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+                    document.getElementById('image-preview').src = uploadedImageDataUrl;
+                    document.getElementById('image-preview-wrapper').classList.remove('hidden');
+                    document.getElementById('upload-label-text').textContent = 'Ganti Foto Barang';
+                    refreshIcons();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearUploadedImage() {
+            uploadedImageDataUrl = '';
+            const inputEl = document.getElementById('new-image');
+            if (inputEl) inputEl.value = '';
+            document.getElementById('image-preview').src = '';
+            document.getElementById('image-preview-wrapper').classList.add('hidden');
+            document.getElementById('upload-label-text').textContent = 'Pilih Foto dari Galeri / Laptop';
+        }
+
         // Toast Notification
         function showToast(title, message, type = 'success') {
             const container = document.getElementById('toast-container');
@@ -832,7 +913,7 @@
             }
         }
 
-        // Perbarui label jumlah pada tombol filter "Semua (N)" tanpa tanda kurung ganda
+        // Perbarui label jumlah pada tombol filter "Semua (N)"
         function updateAllPillCount() {
             const allPill = document.getElementById('pill-all');
             if (allPill) {
@@ -934,24 +1015,32 @@
                     btnIcon = 'repeat';
                 }
 
+                // Tampilkan foto asli jika ada, atau ikon kategori jika tidak ada
+                const visualContent = item.image
+                    ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover">
+                       <span class="absolute bottom-2.5 left-3 text-[11px] font-semibold text-slate-800 bg-white/90 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-sm">
+                           ${escapeHtml(item.condition)}
+                       </span>`
+                    : `<div class="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center ${item.iconColor} mb-2">
+                           <i data-lucide="${escapeHtml(item.icon || 'package')}" class="w-8 h-8"></i>
+                       </div>
+                       <span class="text-[11px] font-medium text-slate-600 bg-white/80 px-2.5 py-0.5 rounded-full">
+                           ${escapeHtml(item.condition)}
+                       </span>`;
+
                 const card = document.createElement('article');
                 card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col overflow-hidden fade-in";
                 card.innerHTML = `
-                    <!-- Visual Header / Ilustrasi Kategori -->
-                    <div class="relative h-40 bg-gradient-to-br ${item.bgGradient} flex flex-col items-center justify-center p-4 border-b border-slate-100">
-                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider shadow-sm ${badgeClass}">
+                    <!-- Visual Header / Foto atau Ilustrasi Kategori -->
+                    <div class="relative h-44 bg-gradient-to-br ${item.bgGradient} flex flex-col items-center justify-center ${item.image ? 'p-0' : 'p-4'} border-b border-slate-100 overflow-hidden">
+                        <span class="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider shadow-sm ${badgeClass}">
                             ${escapeHtml(item.type)}
                         </span>
-                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/90 text-slate-700 backdrop-blur-sm border border-slate-200/60">
+                        <span class="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/90 text-slate-700 backdrop-blur-sm border border-slate-200/60 shadow-sm">
                             ${escapeHtml(item.category)}
                         </span>
 
-                        <div class="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center ${item.iconColor} mb-2">
-                            <i data-lucide="${escapeHtml(item.icon || 'package')}" class="w-8 h-8"></i>
-                        </div>
-                        <span class="text-[11px] font-medium text-slate-600 bg-white/80 px-2.5 py-0.5 rounded-full">
-                            ${escapeHtml(item.condition)}
-                        </span>
+                        ${visualContent}
                     </div>
 
                     <!-- Konten Kartu -->
@@ -1087,6 +1176,7 @@
             const header = document.getElementById('tx-modal-header');
             const title = document.getElementById('tx-modal-title');
             const badge = document.getElementById('tx-item-badge');
+            const iconBox = document.getElementById('tx-item-icon-box');
             const nameEl = document.getElementById('tx-item-name');
             const priceEl = document.getElementById('tx-item-price');
             const sellerEl = document.getElementById('tx-item-seller');
@@ -1094,11 +1184,16 @@
             const dropPointSelect = document.getElementById('tx-droppoint');
             const submitBtn = document.getElementById('tx-submit-btn');
 
+            if (item.image) {
+                iconBox.innerHTML = `<img src="${item.image}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover">`;
+            } else {
+                iconBox.innerHTML = `<i data-lucide="${escapeHtml(item.icon || 'package')}" class="w-6 h-6"></i>`;
+            }
+
             nameEl.textContent = item.name;
             priceEl.textContent = item.priceDisplay;
             sellerEl.textContent = `${item.seller} (KTM Terverifikasi) • ${item.campus}`;
 
-            // Isi pilihan Drop-Point
             dropPointSelect.innerHTML = `
                 <option value="${escapeHtml(item.dropPoint)} (Rekomendasi Penjual)">${escapeHtml(item.dropPoint)} (Rekomendasi Penjual)</option>
                 <option value="Kantin Pusat ULM">Kantin Pusat ULM</option>
@@ -1265,16 +1360,9 @@
             myActivities.unshift(newActivity);
             lastSubmittedActivityId = newActivity.id;
 
-            // Simpan ke localStorage
             persistAllState();
-
-            // Tutup modal transaksi & reset form
             closeTransactionModal();
-
-            // Perbarui panel "Pengajuan Transaksi Terbaru" di halaman utama agar tetap terlihat bahkan setelah modal ditutup
             renderLatestActivityPanel();
-
-            // Segera buka modal Aktivitas Saya dengan highlight "Pengajuan Berhasil Dikirim"
             openActivityModal(true);
 
             showToast(
@@ -1295,6 +1383,7 @@
 
         function closeAddModal() {
             document.getElementById('add-modal').classList.add('hidden');
+            clearUploadedImage();
         }
 
         function updateNewItemPriceLabel() {
@@ -1373,7 +1462,8 @@
                 dropPoint,
                 icon: categoryIcons[category] || 'package',
                 bgGradient,
-                iconColor
+                iconColor,
+                image: uploadedImageDataUrl
             };
 
             itemsData.unshift(newItem);

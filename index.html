@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAMPUS MART — Jual Beli, Sewa, &amp; Barter Barang Mahasiswa Lintas Kampus</title>
+    <title>CAMPUS MART — Jual Beli, Sewa, &amp; Barter Barang Mahasiswa Kalimantan Selatan</title>
     <!-- Favicon pakai logo sendiri -->
     <link rel="icon" type="image/png" href="logo.png">
     <!-- Tailwind CSS -->
@@ -17,7 +17,6 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
         }
-        /* Custom scrollbar untuk tampilan lebih bersih */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -53,7 +52,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-wrap items-center justify-between py-3 md:h-20 gap-3">
                 
-                <!-- Brand Logo & Tagline (Klik untuk Reset Filter) -->
+                <!-- Brand Logo & Tagline -->
                 <button type="button" onclick="resetFilters()" class="flex items-center gap-3 text-left focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-2xl p-1 -ml-1 transition-all">
                     <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-sm shrink-0">
                         <img src="logo.png" alt="Logo Campus Mart" class="w-full h-full object-contain p-1"
@@ -65,9 +64,9 @@
                     <div class="min-w-0">
                         <div class="flex items-center gap-2">
                             <span class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">CAMPUS <span class="text-emerald-600">MART</span></span>
-                            <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">MVP Demo</span>
+                            <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">Kalsel</span>
                         </div>
-                        <p class="text-[11px] sm:text-xs text-slate-500 hidden sm:block">Jual Beli, Sewa, &amp; Barter Barang Mahasiswa Lintas Kampus</p>
+                        <p class="text-[11px] sm:text-xs text-slate-500 hidden sm:block">Jual Beli, Sewa, &amp; Barter Barang Mahasiswa Kalimantan Selatan</p>
                     </div>
                 </button>
 
@@ -109,13 +108,13 @@
             <div class="max-w-3xl mx-auto text-center mb-7">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-emerald-200 shadow-sm text-xs font-semibold text-emerald-700 mb-3">
                     <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
-                    <span>Bebas Ongkir via Campus Drop-Point • 100% Komunitas Mahasiswa</span>
+                    <span>COD Fleksibel Se-Kalimantan Selatan • Langsung Hubungi Penjual</span>
                 </div>
                 <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-3">
-                    Ekonomi Sirkular Mahasiswa: <span class="text-emerald-600">Jual, Sewa, &amp; Barter</span> Antar-Kampus
+                    Ekonomi Sirkular Mahasiswa: <span class="text-emerald-600">Jual, Sewa, &amp; Barter</span> Se-Kalsel
                 </h1>
                 <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-                    Jangan biarkan barang kos dan buku kuliah menumpuk tak terpakai. Temukan perlengkapan kuliah hemat budget atau tukar barang dengan mahasiswa lintas kampus di satu kota.
+                    Jangan biarkan barang kos dan buku kuliah menumpuk tak terpakai. Temukan perlengkapan hemat budget, ketemuan COD di lokasi pilihan penjual, atau hubungi langsung via WhatsApp/Sosmed.
                 </p>
             </div>
 
@@ -128,7 +127,7 @@
                         <label for="search-input" class="sr-only">Cari Barang</label>
                         <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
                         <input type="text" id="search-input" oninput="applyFilters()"
-                            placeholder="Cari meja belajar, kalkulator, buku akuntansi..."
+                            placeholder="Cari meja belajar, kalkulator, lokasi COD..."
                             class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all">
                     </div>
 
@@ -145,17 +144,59 @@
                         </select>
                     </div>
 
-                    <!-- Filter Kampus -->
+                    <!-- Filter Daerah / Kecamatan Kalsel -->
                     <div class="md:col-span-4">
-                        <label for="filter-campus" class="sr-only">Kampus</label>
-                        <select id="filter-campus" onchange="applyFilters()"
+                        <label for="filter-region" class="sr-only">Daerah / Kecamatan</label>
+                        <select id="filter-region" onchange="applyFilters()"
                             class="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white text-slate-700 font-medium">
-                            <option value="Semua">Semua Kampus (Lintas Kampus)</option>
-                            <option value="Universitas Lambung Mangkurat (ULM)">Universitas Lambung Mangkurat (ULM)</option>
-                            <option value="Politeknik Negeri Banjarmasin (Poliban)">Politeknik Negeri Banjarmasin (Poliban)</option>
-                            <option value="Universitas Islam Kalimantan (UNISKA)">Universitas Islam Kalimantan (UNISKA)</option>
-                            <option value="UIN Antasari">UIN Antasari</option>
-                            <option value="Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)">Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)</option>
+                            <option value="Semua">Semua Daerah (Kalimantan Selatan)</option>
+                            <optgroup label="Kota Banjarmasin">
+                                <option value="Banjarmasin Utara">Banjarmasin Utara</option>
+                                <option value="Banjarmasin Selatan">Banjarmasin Selatan</option>
+                                <option value="Banjarmasin Tengah">Banjarmasin Tengah</option>
+                                <option value="Banjarmasin Timur">Banjarmasin Timur</option>
+                                <option value="Banjarmasin Barat">Banjarmasin Barat</option>
+                            </optgroup>
+                            <optgroup label="Kota Banjarbaru">
+                                <option value="Banjarbaru Utara">Banjarbaru Utara</option>
+                                <option value="Banjarbaru Selatan">Banjarbaru Selatan</option>
+                                <option value="Landasan Ulin, Banjarbaru">Landasan Ulin, Banjarbaru</option>
+                                <option value="Liang Anggang, Banjarbaru">Liang Anggang, Banjarbaru</option>
+                                <option value="Cempaka, Banjarbaru">Cempaka, Banjarbaru</option>
+                            </optgroup>
+                            <optgroup label="Kabupaten Banjar">
+                                <option value="Martapura, Kab. Banjar">Martapura, Kab. Banjar</option>
+                                <option value="Kertak Hanyar, Kab. Banjar">Kertak Hanyar, Kab. Banjar</option>
+                                <option value="Gambut, Kab. Banjar">Gambut, Kab. Banjar</option>
+                                <option value="Sungai Tabuk, Kab. Banjar">Sungai Tabuk, Kab. Banjar</option>
+                                <option value="Karang Intan, Kab. Banjar">Karang Intan, Kab. Banjar</option>
+                                <option value="Astambul, Kab. Banjar">Astambul, Kab. Banjar</option>
+                            </optgroup>
+                            <optgroup label="Kabupaten Barito Kuala (Batola)">
+                                <option value="Alalak (Handil Bakti), Batola">Alalak (Handil Bakti), Batola</option>
+                                <option value="Marabahan, Batola">Marabahan, Batola</option>
+                                <option value="Anjir Muara, Batola">Anjir Muara, Batola</option>
+                                <option value="Mandastana, Batola">Mandastana, Batola</option>
+                            </optgroup>
+                            <optgroup label="Kabupaten Tanah Laut">
+                                <option value="Pelaihari, Tanah Laut">Pelaihari, Tanah Laut</option>
+                                <option value="Bati-Bati, Tanah Laut">Bati-Bati, Tanah Laut</option>
+                                <option value="Jorong, Tanah Laut">Jorong, Tanah Laut</option>
+                                <option value="Takisung, Tanah Laut">Takisung, Tanah Laut</option>
+                            </optgroup>
+                            <optgroup label="Tapin, Hulu Sungai, Balangan &amp; Tabalong">
+                                <option value="Rantau, Tapin">Rantau, Tapin</option>
+                                <option value="Kandangan, HSS">Kandangan, HSS</option>
+                                <option value="Barabai, HST">Barabai, HST</option>
+                                <option value="Amuntai, HSU">Amuntai, HSU</option>
+                                <option value="Paringin, Balangan">Paringin, Balangan</option>
+                                <option value="Tanjung, Tabalong">Tanjung, Tabalong</option>
+                            </optgroup>
+                            <optgroup label="Tanah Bumbu &amp; Kotabaru">
+                                <option value="Batulicin, Tanah Bumbu">Batulicin, Tanah Bumbu</option>
+                                <option value="Simpang Empat, Tanah Bumbu">Simpang Empat, Tanah Bumbu</option>
+                                <option value="Kotabaru (Pulau Laut Utara)">Kotabaru (Pulau Laut Utara)</option>
+                            </optgroup>
                         </select>
                     </div>
 
@@ -225,7 +266,7 @@
                 <i data-lucide="package-search" class="w-8 h-8"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-1">Barang tidak ditemukan</h3>
-            <p class="text-sm text-slate-500 max-w-md mx-auto mb-4">Coba ubah kata kunci pencarian, pilih kategori lain, atau tampilkan semua kampus untuk melihat lebih banyak barang.</p>
+            <p class="text-sm text-slate-500 max-w-md mx-auto mb-4">Coba ubah kata kunci pencarian, pilih kategori lain, atau tampilkan semua daerah Kalimantan Selatan.</p>
             <button type="button" onclick="resetFilters()" class="px-4 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition-all">
                 Reset Semua Filter
             </button>
@@ -253,7 +294,7 @@
                         <span class="text-lg font-extrabold text-white tracking-tight">CAMPUS <span class="text-emerald-400">MART</span></span>
                     </div>
                     <p class="text-sm text-slate-400 leading-relaxed mb-4">
-                        Platform ekonomi sirkular mahasiswa lintas kampus untuk jual beli, sewa, dan barter perlengkapan kuliah maupun kos secara aman, hemat, dan ramah lingkungan.
+                        Platform ekonomi sirkular mahasiswa Kalimantan Selatan untuk jual beli, sewa, dan barter perlengkapan kuliah maupun kos secara aman, hemat, dan ramah lingkungan.
                     </p>
                     <div class="inline-block px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-emerald-400 font-semibold">
                         Dikembangkan oleh Tim F — Program Studi Akuntansi
@@ -266,34 +307,34 @@
                     <ul class="space-y-2.5 text-sm text-slate-400">
                         <li class="flex items-start gap-2">
                             <span class="px-1.5 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-400 rounded shrink-0 mt-0.5">JUAL BELI</span>
-                            <span>Beli barang bekas layak pakai milik senior/mahasiswa lain dengan harga miring.</span>
+                            <span>Beli barang bekas layak pakai dengan harga miring sesuai budget mahasiswa.</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="px-1.5 py-0.5 text-[10px] font-bold bg-blue-500/20 text-blue-400 rounded shrink-0 mt-0.5">SEWA</span>
-                            <span>Pinjam alat praktikum, kalkulator, atau buku referensi sesuai durasi kebutuhan ujian.</span>
+                            <span>Pinjam alat praktikum, kalkulator, atau buku referensi sesuai durasi kebutuhan.</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="px-1.5 py-0.5 text-[10px] font-bold bg-purple-500/20 text-purple-400 rounded shrink-0 mt-0.5">BARTER</span>
-                            <span>Tukar langsung barangmu yang tak terpakai dengan barang mahasiswa kampus lain tanpa uang tunai.</span>
+                            <span>Tukar langsung barangmu yang tak terpakai dengan barang lain tanpa uang tunai.</span>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Kolom 3: Panduan Keamanan Campus Drop-Point -->
+                <!-- Kolom 3: Panduan Keamanan COD -->
                 <div>
-                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Panduan Keamanan Campus Drop-Point</h4>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Panduan Keamanan COD</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
                         <li class="flex items-start gap-2">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span>Pastikan penjual memiliki badge <strong>KTM Terverifikasi</strong>.</span>
+                            <span>Hubungi penjual terlebih dahulu melalui <strong>WhatsApp / Sosmed</strong> yang tertera.</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span>Selalu lakukan serah terima di <strong>Campus Drop-Point</strong> resmi (Kantin Pusat, Perpustakaan, Gerbang Utama).</span>
+                            <span>Sepakati pertemuan di <strong>Lokasi COD</strong> yang ramai &amp; aman sesuai kesepakatan penjual.</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span>Cek kelayakan fisik barang sebelum melakukan pembayaran COD atau konfirmasi barter.</span>
+                            <span>Cek kelayakan fisik barang sebelum melakukan pembayaran atau konfirmasi barter.</span>
                         </li>
                     </ul>
                 </div>
@@ -334,21 +375,33 @@
                         <span id="tx-item-badge" class="inline-block px-2 py-0.5 text-[10px] font-bold rounded uppercase mb-1">JUAL BELI</span>
                         <h4 id="tx-item-name" class="font-bold text-slate-900 text-sm truncate">Nama Barang</h4>
                         <p id="tx-item-price" class="text-xs font-semibold text-emerald-700">Rp65.000</p>
-                        <p id="tx-item-seller" class="text-[11px] text-slate-500 mt-0.5">Penjual • Kampus</p>
+                        <p id="tx-item-seller" class="text-[11px] text-slate-500 mt-0.5">Penjual • Daerah</p>
                     </div>
                 </div>
 
                 <!-- Dynamic Fields Container -->
                 <div id="tx-dynamic-fields" class="space-y-4"></div>
 
-                <!-- Pilih Campus Drop-Point -->
-                <div>
-                    <label for="tx-droppoint" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-                        Titik Temu (Campus Drop-Point)
-                    </label>
-                    <select id="tx-droppoint" name="dropPoint" required
-                        class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    </select>
+                <!-- Info Lokasi COD (Ditentukan Penjual) & Kontak -->
+                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-rose-500 shrink-0 mt-0.5"></i>
+                        <div>
+                            <span class="block text-[10px] font-bold uppercase text-slate-400">Lokasi COD (Ditentukan Penjual)</span>
+                            <strong id="tx-cod-display" class="text-slate-800 text-xs sm:text-sm">Lokasi COD</strong>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-200/80 gap-2">
+                        <div class="flex items-center gap-1.5 text-slate-600 min-w-0">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                            <span id="tx-contact-display" class="truncate font-semibold text-slate-800">0812...</span>
+                        </div>
+                        <a id="tx-contact-btn" href="#" target="_blank" rel="noopener noreferrer"
+                            class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] transition-colors">
+                            <i data-lucide="external-link" class="w-3 h-3"></i>
+                            <span>Chat Penjual</span>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Catatan Jadwal -->
@@ -356,7 +409,7 @@
                     <label for="tx-note" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
                         Jadwal &amp; Catatan untuk Penjual
                     </label>
-                    <input type="text" id="tx-note" name="scheduleNote" required placeholder="Contoh: Ketemuan jam 13.00 siang setelah kelas selesai"
+                    <input type="text" id="tx-note" name="scheduleNote" required placeholder="Contoh: Ketemuan jam 13.00 siang, saya sudah chat WA ya"
                         class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
 
@@ -383,14 +436,14 @@
             <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-400"></i>
-                    <h3 class="font-bold text-base sm:text-lg">Pasang Barang Mahasiswa Baru</h3>
+                    <h3 class="font-bold text-base sm:text-lg">Pasang Barang Baru</h3>
                 </div>
                 <button type="button" onclick="closeAddModal()" aria-label="Tutup modal tambah barang" class="p-1.5 rounded-lg hover:bg-white/20 transition-colors">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
-            <form id="add-form" onsubmit="submitNewItem(event)" class="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+            <form id="add-form" onsubmit="submitNewItem(event)" class="p-6 space-y-4 max-h-[82vh] overflow-y-auto">
                 <!-- Upload Foto Barang -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Foto Barang (Opsional)</label>
@@ -399,7 +452,6 @@
                         <span id="upload-label-text">Pilih Foto dari Galeri / Laptop</span>
                         <input type="file" id="new-image" accept="image/*" onchange="handleImageUpload(event)" class="hidden">
                     </label>
-                    <!-- Preview Foto -->
                     <div id="image-preview-wrapper" class="hidden mt-2.5 relative rounded-xl overflow-hidden border border-slate-200 bg-slate-100 h-36">
                         <img id="image-preview" src="" alt="Preview Foto Barang" class="w-full h-full object-cover">
                         <button type="button" onclick="clearUploadedImage()" title="Hapus foto"
@@ -452,7 +504,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label for="new-seller" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Penjual (Mahasiswa)</label>
+                        <label for="new-seller" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Penjual</label>
                         <input type="text" id="new-seller" name="seller" required value="Muhammad Arifin (Tim F)"
                             class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
@@ -467,21 +519,72 @@
                     </div>
                 </div>
 
+                <!-- Nomor WA / Akun Sosmed Penjual -->
+                <div>
+                    <label for="new-contact" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nomor WhatsApp / Akun Sosmed</label>
+                    <input type="text" id="new-contact" name="contact" required placeholder="Contoh: 081234567890 atau @instagram_kamu"
+                        class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <p class="text-[11px] text-slate-500 mt-1">Isi nomor WA (08...) biar pembeli bisa langsung klik tombol chat WhatsApp.</p>
+                </div>
+
+                <!-- Daerah / Kecamatan & Lokasi COD -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label for="new-campus" class="block text-xs font-bold text-slate-700 uppercase mb-1">Asal Kampus</label>
-                        <select id="new-campus" name="campus" required
+                        <label for="new-region" class="block text-xs font-bold text-slate-700 uppercase mb-1">Daerah / Kecamatan (Kalsel)</label>
+                        <select id="new-region" name="region" required
                             class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            <option value="Universitas Lambung Mangkurat (ULM)">Universitas Lambung Mangkurat (ULM)</option>
-                            <option value="Politeknik Negeri Banjarmasin (Poliban)">Politeknik Negeri Banjarmasin (Poliban)</option>
-                            <option value="Universitas Islam Kalimantan (UNISKA)">Universitas Islam Kalimantan (UNISKA)</option>
-                            <option value="UIN Antasari">UIN Antasari</option>
-                            <option value="Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)">Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)</option>
+                            <optgroup label="Kota Banjarmasin">
+                                <option value="Banjarmasin Utara">Banjarmasin Utara</option>
+                                <option value="Banjarmasin Selatan">Banjarmasin Selatan</option>
+                                <option value="Banjarmasin Tengah">Banjarmasin Tengah</option>
+                                <option value="Banjarmasin Timur">Banjarmasin Timur</option>
+                                <option value="Banjarmasin Barat">Banjarmasin Barat</option>
+                            </optgroup>
+                            <optgroup label="Kota Banjarbaru">
+                                <option value="Banjarbaru Utara">Banjarbaru Utara</option>
+                                <option value="Banjarbaru Selatan">Banjarbaru Selatan</option>
+                                <option value="Landasan Ulin, Banjarbaru">Landasan Ulin, Banjarbaru</option>
+                                <option value="Liang Anggang, Banjarbaru">Liang Anggang, Banjarbaru</option>
+                                <option value="Cempaka, Banjarbaru">Cempaka, Banjarbaru</option>
+                            </optgroup>
+                            <optgroup label="Kabupaten Banjar">
+                                <option value="Martapura, Kab. Banjar">Martapura, Kab. Banjar</option>
+                                <option value="Kertak Hanyar, Kab. Banjar">Kertak Hanyar, Kab. Banjar</option>
+                                <option value="Gambut, Kab. Banjar">Gambut, Kab. Banjar</option>
+                                <option value="Sungai Tabuk, Kab. Banjar">Sungai Tabuk, Kab. Banjar</option>
+                                <option value="Karang Intan, Kab. Banjar">Karang Intan, Kab. Banjar</option>
+                                <option value="Astambul, Kab. Banjar">Astambul, Kab. Banjar</option>
+                            </optgroup>
+                            <optgroup label="Kabupaten Barito Kuala (Batola)">
+                                <option value="Alalak (Handil Bakti), Batola">Alalak (Handil Bakti), Batola</option>
+                                <option value="Marabahan, Batola">Marabahan, Batola</option>
+                                <option value="Anjir Muara, Batola">Anjir Muara, Batola</option>
+                                <option value="Mandastana, Batola">Mandastana, Batola</option>
+                            </optgroup>
+                            <optgroup label="Kabupaten Tanah Laut">
+                                <option value="Pelaihari, Tanah Laut">Pelaihari, Tanah Laut</option>
+                                <option value="Bati-Bati, Tanah Laut">Bati-Bati, Tanah Laut</option>
+                                <option value="Jorong, Tanah Laut">Jorong, Tanah Laut</option>
+                                <option value="Takisung, Tanah Laut">Takisung, Tanah Laut</option>
+                            </optgroup>
+                            <optgroup label="Tapin, Hulu Sungai, Balangan &amp; Tabalong">
+                                <option value="Rantau, Tapin">Rantau, Tapin</option>
+                                <option value="Kandangan, HSS">Kandangan, HSS</option>
+                                <option value="Barabai, HST">Barabai, HST</option>
+                                <option value="Amuntai, HSU">Amuntai, HSU</option>
+                                <option value="Paringin, Balangan">Paringin, Balangan</option>
+                                <option value="Tanjung, Tabalong">Tanjung, Tabalong</option>
+                            </optgroup>
+                            <optgroup label="Tanah Bumbu &amp; Kotabaru">
+                                <option value="Batulicin, Tanah Bumbu">Batulicin, Tanah Bumbu</option>
+                                <option value="Simpang Empat, Tanah Bumbu">Simpang Empat, Tanah Bumbu</option>
+                                <option value="Kotabaru (Pulau Laut Utara)">Kotabaru (Pulau Laut Utara)</option>
+                            </optgroup>
                         </select>
                     </div>
                     <div>
-                        <label for="new-droppoint" class="block text-xs font-bold text-slate-700 uppercase mb-1">Campus Drop-Point COD</label>
-                        <input type="text" id="new-droppoint" name="dropPoint" required placeholder="Contoh: Kantin Pusat ULM"
+                        <label for="new-droppoint" class="block text-xs font-bold text-slate-700 uppercase mb-1">Lokasi COD (Pilihanmu)</label>
+                        <input type="text" id="new-droppoint" name="dropPoint" required placeholder="Contoh: Bundaran Kayutangi / Indomaret Jl. Sultan Adam"
                             class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                 </div>
@@ -516,12 +619,11 @@
             </div>
 
             <div class="p-6">
-                <!-- Banner sukses saat modal dibuka otomatis setelah pengajuan transaksi -->
                 <div id="activity-success-banner" class="hidden mb-4 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-start gap-2.5">
                     <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
                     <div>
                         <p class="text-xs font-extrabold text-emerald-900 uppercase tracking-wide">Pengajuan Berhasil Dikirim</p>
-                        <p class="text-xs text-emerald-800 mt-0.5">Detail pengajuan terbaru kamu sudah tersimpan dan tercantum di bagian teratas daftar ini.</p>
+                        <p class="text-xs text-emerald-800 mt-0.5">Detail pengajuan terbaru kamu sudah tersimpan. Silakan klik tombol Chat Penjual untuk koordinasi COD.</p>
                     </div>
                 </div>
 
@@ -540,17 +642,17 @@
     </div>
 
     <!-- =====================================================================
-         JAVASCRIPT LOGIC, PERSISTENSI LOCALSTORAGE & DATA DUMMY
+         JAVASCRIPT LOGIC, PERSISTENSI LOCALSTORAGE & DATA DUMMY KALSEL
     ====================================================================== -->
     <script>
-        // Kunci localStorage
+        // Kunci localStorage versi 2 (Kalsel + Kontak Penjual)
         const STORAGE_KEYS = {
-            ITEMS: 'campus-mart-items-v1',
-            ACTIVITIES: 'campus-mart-activities-v1',
+            ITEMS: 'campus-mart-items-kalsel-v2',
+            ACTIVITIES: 'campus-mart-activities-kalsel-v2',
             KTM: 'campus-mart-ktm-v1'
         };
 
-        // Data Awal 9 Barang Mahasiswa dari 5 Kampus di Banjarmasin
+        // Data Awal 9 Barang Mahasiswa se-Kalimantan Selatan
         const DEFAULT_ITEMS = [
             {
                 id: 1,
@@ -562,8 +664,9 @@
                 unitLabel: "",
                 condition: "Mulus 90% (Bekas Kos)",
                 seller: "Nia Rahmayanti",
-                campus: "Universitas Lambung Mangkurat (ULM)",
-                dropPoint: "Kantin Pusat ULM",
+                region: "Banjarmasin Utara",
+                dropPoint: "Bundaran Kayutangi / Depan Alfamart Brigjen Hasan Basri",
+                contact: "081251001122",
                 icon: "table",
                 bgGradient: "from-emerald-50 to-teal-100",
                 iconColor: "text-emerald-600",
@@ -579,8 +682,9 @@
                 unitLabel: "minggu",
                 condition: "Normal 100% + Baterai Baru",
                 seller: "Fitri Ariyanti",
-                campus: "Politeknik Negeri Banjarmasin (Poliban)",
-                dropPoint: "Perpustakaan Poliban",
+                region: "Banjarbaru Utara",
+                dropPoint: "Lapangan Murdjani Banjarbaru",
+                contact: "085248002233",
                 icon: "calculator",
                 bgGradient: "from-blue-50 to-indigo-100",
                 iconColor: "text-blue-600",
@@ -596,8 +700,9 @@
                 unitLabel: "",
                 condition: "Terawat, Tanpa Coretan",
                 seller: "Sumiyati",
-                campus: "Universitas Islam Kalimantan (UNISKA)",
-                dropPoint: "Gerbang Utama UNISKA",
+                region: "Banjarmasin Timur",
+                dropPoint: "Duta Mall / Jl. Ahmad Yani Km 2",
+                contact: "@sumiyati.ak",
                 icon: "book-open",
                 bgGradient: "from-purple-50 to-fuchsia-100",
                 iconColor: "text-purple-600",
@@ -613,8 +718,9 @@
                 unitLabel: "",
                 condition: "Empuk, Sarung Sudah Dicuci Bersih",
                 seller: "Muhammad Saddam",
-                campus: "Universitas Lambung Mangkurat (ULM)",
-                dropPoint: "Bundaran Fakultas Ekonomi ULM",
+                region: "Banjarmasin Utara",
+                dropPoint: "Jl. Sultan Adam (Dekat Indomaret)",
+                contact: "082155003344",
                 icon: "bed",
                 bgGradient: "from-emerald-50 to-teal-100",
                 iconColor: "text-emerald-600",
@@ -630,8 +736,9 @@
                 unitLabel: "paket (3 hari)",
                 condition: "Putih Bersih & Wangi Laundry",
                 seller: "Aulia Rahma",
-                campus: "Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)",
-                dropPoint: "Lobby Utama Kampus UM",
+                region: "Alalak (Handil Bakti), Batola",
+                dropPoint: "Jembatan Barito / Terminal Handil Bakti",
+                contact: "085751004455",
                 icon: "shirt",
                 bgGradient: "from-blue-50 to-indigo-100",
                 iconColor: "text-blue-600",
@@ -647,8 +754,9 @@
                 unitLabel: "",
                 condition: "Angin Kencang, 2 Kecepatan Normal",
                 seller: "Muhammad Maulidi",
-                campus: "UIN Antasari",
-                dropPoint: "Masjid Kampus UIN Antasari",
+                region: "Martapura, Kab. Banjar",
+                dropPoint: "Alun-Alun Ratu Zalecha Martapura",
+                contact: "081349005566",
                 icon: "fan",
                 bgGradient: "from-purple-50 to-fuchsia-100",
                 iconColor: "text-purple-600",
@@ -664,8 +772,9 @@
                 unitLabel: "",
                 condition: "3 Mode Cahaya + Kabel USB",
                 seller: "Rizky Pratama",
-                campus: "Politeknik Negeri Banjarmasin (Poliban)",
-                dropPoint: "Kantin Teknik Poliban",
+                region: "Landasan Ulin, Banjarbaru",
+                dropPoint: "Bundaran Liang Anggang / Q Mall Banjarbaru",
+                contact: "082251006677",
                 icon: "lamp-desk",
                 bgGradient: "from-emerald-50 to-teal-100",
                 iconColor: "text-emerald-600",
@@ -681,8 +790,9 @@
                 unitLabel: "",
                 condition: "Panci Anti Lengket Mulus",
                 seller: "Muhammad Arifin",
-                campus: "Universitas Lambung Mangkurat (ULM)",
-                dropPoint: "Perpustakaan Pusat ULM",
+                region: "Banjarmasin Tengah",
+                dropPoint: "Siring Menara Pandang Banjarmasin",
+                contact: "081253007788",
                 icon: "utensils",
                 bgGradient: "from-emerald-50 to-teal-100",
                 iconColor: "text-emerald-600",
@@ -698,8 +808,9 @@
                 unitLabel: "hari",
                 condition: "Tinggi Max 160cm + Holder HP",
                 seller: "Dina Safitri",
-                campus: "Universitas Islam Kalimantan (UNISKA)",
-                dropPoint: "Taman Kampus UNISKA",
+                region: "Kertak Hanyar, Kab. Banjar",
+                dropPoint: "Jl. Ahmad Yani Km 7 (Depan Mie Gacoan)",
+                contact: "@dinasafitri.bjm",
                 icon: "camera",
                 bgGradient: "from-blue-50 to-indigo-100",
                 iconColor: "text-blue-600",
@@ -716,18 +827,16 @@
         let lastSubmittedActivityId = null;
         let uploadedImageDataUrl = '';
 
-        // Helper aman untuk Lucide Icons
+        // Helper Lucide Icons
         function refreshIcons() {
             try {
                 if (window.lucide && typeof window.lucide.createIcons === 'function') {
                     window.lucide.createIcons();
                 }
-            } catch (err) {
-                // Abaikan jika ikon gagal diinisialisasi
-            }
+            } catch (err) {}
         }
 
-        // Helper aman untuk escaping teks HTML
+        // Helper Escape HTML
         function escapeHtml(value) {
             return String(value ?? '')
                 .replace(/&/g, '&amp;')
@@ -737,7 +846,43 @@
                 .replace(/'/g, '&#39;');
         }
 
-        // Helper aman untuk membaca & menyimpan localStorage
+        // Helper Format Link Kontak (WhatsApp atau Sosmed)
+        function buildContactLink(contactRaw, itemName) {
+            const raw = String(contactRaw || '').trim();
+            if (!raw) return { url: '#', label: 'Kontak belum diisi', isWa: false };
+
+            // Cek apakah nomor HP/WA (hanya angka, spasi, +, -)
+            const digitsOnly = raw.replace(/[^0-9]/g, '');
+            if (digitsOnly.length >= 9 && /^[\d\s+\-()]+$/.test(raw)) {
+                let waNumber = digitsOnly;
+                if (waNumber.startsWith('0')) {
+                    waNumber = '62' + waNumber.slice(1);
+                } else if (!waNumber.startsWith('62')) {
+                    waNumber = '62' + waNumber;
+                }
+                const msg = encodeURIComponent(`Halo kak, saya lihat "${itemName}" di Campus Mart. Apakah barangnya masih tersedia?`);
+                return {
+                    url: `https://wa.me/${waNumber}?text=${msg}`,
+                    label: 'Chat WhatsApp',
+                    isWa: true
+                };
+            }
+
+            // Jika URL langsung
+            if (/^https?:\/\//i.test(raw)) {
+                return { url: raw, label: 'Buka Sosmed', isWa: false };
+            }
+
+            // Jika username Instagram (@nama)
+            const cleanHandle = raw.replace(/^@/, '');
+            return {
+                url: `https://instagram.com/${encodeURIComponent(cleanHandle)}`,
+                label: 'Cek Sosmed',
+                isWa: false
+            };
+        }
+
+        // Storage Helpers
         function readStorage(key, fallback) {
             try {
                 const raw = window.localStorage.getItem(key);
@@ -751,9 +896,7 @@
         function writeStorage(key, value) {
             try {
                 window.localStorage.setItem(key, JSON.stringify(value));
-            } catch (err) {
-                // Abaikan jika localStorage penuh / mode privat
-            }
+            } catch (err) {}
         }
 
         function persistAllState() {
@@ -772,20 +915,10 @@
             }
 
             const storedActivities = readStorage(STORAGE_KEYS.ACTIVITIES, null);
-            if (Array.isArray(storedActivities)) {
-                myActivities = storedActivities;
-            } else {
-                myActivities = [];
-                writeStorage(STORAGE_KEYS.ACTIVITIES, myActivities);
-            }
+            myActivities = Array.isArray(storedActivities) ? storedActivities : [];
 
             const storedKtm = readStorage(STORAGE_KEYS.KTM, null);
-            if (typeof storedKtm === 'boolean') {
-                isKtmVerified = storedKtm;
-            } else {
-                isKtmVerified = false;
-                writeStorage(STORAGE_KEYS.KTM, isKtmVerified);
-            }
+            isKtmVerified = typeof storedKtm === 'boolean' ? storedKtm : false;
         }
 
         // Format Rupiah
@@ -875,7 +1008,7 @@
             }, 3800);
         }
 
-        // Update tampilan tombol Verifikasi KTM sesuai state
+        // Update tombol Verifikasi KTM
         function renderKtmButton() {
             const btn = document.getElementById('btn-verify-ktm');
             const icon = document.getElementById('ktm-icon');
@@ -887,7 +1020,7 @@
                 btn.setAttribute('aria-pressed', 'true');
                 icon.setAttribute('data-lucide', 'badge-check');
                 icon.className = "w-4 h-4 text-emerald-600 shrink-0";
-                text.textContent = "KTM Terverifikasi (.ac.id)";
+                text.textContent = "KTM Terverifikasi";
                 textMobile.textContent = "Terverifikasi";
             } else {
                 btn.className = "flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold border transition-all duration-200 bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100";
@@ -900,25 +1033,21 @@
             refreshIcons();
         }
 
-        // Toggle Simulasi Verifikasi KTM
         function toggleKtmVerification() {
             isKtmVerified = !isKtmVerified;
             persistAllState();
             renderKtmButton();
 
             if (isKtmVerified) {
-                showToast("Akun Mahasiswa Terverifikasi!", "KTM & email kampus (.ac.id) aktif. Kamu sekarang bisa pasang barang dan mengajukan sewa/barter.", "success");
+                showToast("Akun Mahasiswa Terverifikasi!", "Badge verifikasi aktif untuk transaksi yang lebih terpercaya.", "success");
             } else {
-                showToast("Status Verifikasi Dinonaktifkan", "Mode simulasi tamu aktif. Klik lagi untuk mengaktifkan badge KTM Mahasiswa.", "warning");
+                showToast("Status Verifikasi Dinonaktifkan", "Mode simulasi tamu aktif. Klik lagi untuk mengaktifkan badge verifikasi.", "warning");
             }
         }
 
-        // Perbarui label jumlah pada tombol filter "Semua (N)"
         function updateAllPillCount() {
             const allPill = document.getElementById('pill-all');
-            if (allPill) {
-                allPill.textContent = `Semua (${itemsData.length})`;
-            }
+            if (allPill) allPill.textContent = `Semua (${itemsData.length})`;
         }
 
         // Filter Tipe Transaksi
@@ -943,31 +1072,29 @@
             applyFilters();
         }
 
-        // Reset Semua Filter
         function resetFilters() {
             document.getElementById('search-input').value = '';
             document.getElementById('filter-category').value = 'Semua';
-            document.getElementById('filter-campus').value = 'Semua';
+            document.getElementById('filter-region').value = 'Semua';
             setTypeFilter('Semua');
         }
 
-        // Terapkan Pencarian & Filter
         function applyFilters() {
             const keyword = document.getElementById('search-input').value.toLowerCase().trim();
             const category = document.getElementById('filter-category').value;
-            const campus = document.getElementById('filter-campus').value;
+            const region = document.getElementById('filter-region').value;
 
             const filtered = itemsData.filter(item => {
                 const matchKeyword = item.name.toLowerCase().includes(keyword) || 
                                      item.priceDisplay.toLowerCase().includes(keyword) ||
-                                     item.campus.toLowerCase().includes(keyword) ||
-                                     item.dropPoint.toLowerCase().includes(keyword) ||
-                                     item.seller.toLowerCase().includes(keyword);
+                                     (item.region || '').toLowerCase().includes(keyword) ||
+                                     (item.dropPoint || '').toLowerCase().includes(keyword) ||
+                                     (item.seller || '').toLowerCase().includes(keyword);
                 const matchType = currentTypeFilter === 'Semua' || item.type === currentTypeFilter;
                 const matchCategory = category === 'Semua' || item.category === category;
-                const matchCampus = campus === 'Semua' || item.campus === campus;
+                const matchRegion = region === 'Semua' || item.region === region;
 
-                return matchKeyword && matchType && matchCategory && matchCampus;
+                return matchKeyword && matchType && matchCategory && matchRegion;
             });
 
             renderCatalog(filtered);
@@ -1015,7 +1142,8 @@
                     btnIcon = 'repeat';
                 }
 
-                // Tampilkan foto asli jika ada, atau ikon kategori jika tidak ada
+                const contactInfo = buildContactLink(item.contact, item.name);
+
                 const visualContent = item.image
                     ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover">
                        <span class="absolute bottom-2.5 left-3 text-[11px] font-semibold text-slate-800 bg-white/90 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-sm">
@@ -1031,7 +1159,7 @@
                 const card = document.createElement('article');
                 card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col overflow-hidden fade-in";
                 card.innerHTML = `
-                    <!-- Visual Header / Foto atau Ilustrasi Kategori -->
+                    <!-- Visual Header -->
                     <div class="relative h-44 bg-gradient-to-br ${item.bgGradient} flex flex-col items-center justify-center ${item.image ? 'p-0' : 'p-4'} border-b border-slate-100 overflow-hidden">
                         <span class="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider shadow-sm ${badgeClass}">
                             ${escapeHtml(item.type)}
@@ -1039,7 +1167,6 @@
                         <span class="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/90 text-slate-700 backdrop-blur-sm border border-slate-200/60 shadow-sm">
                             ${escapeHtml(item.category)}
                         </span>
-
                         ${visualContent}
                     </div>
 
@@ -1054,7 +1181,7 @@
                             </div>
                         </div>
 
-                        <!-- Info Mahasiswa, Kampus & Drop-Point -->
+                        <!-- Info Penjual, Daerah, COD & Kontak -->
                         <div class="space-y-2 pt-3 border-t border-slate-100 text-xs">
                             <div class="flex items-center justify-between gap-2">
                                 <div class="flex items-center gap-1.5 font-semibold text-slate-800 min-w-0">
@@ -1062,27 +1189,32 @@
                                     <span class="truncate">${escapeHtml(item.seller)}</span>
                                 </div>
                                 <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold shrink-0">
-                                    <i data-lucide="badge-check" class="w-3 h-3"></i> KTM Terverifikasi
+                                    <i data-lucide="badge-check" class="w-3 h-3"></i> Terverifikasi
                                 </span>
                             </div>
 
                             <div class="flex items-start gap-1.5 text-slate-600">
-                                <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"></i>
-                                <span>${escapeHtml(item.campus)}</span>
+                                <i data-lucide="map" class="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"></i>
+                                <span>Daerah: <strong class="text-slate-700">${escapeHtml(item.region)}</strong></span>
                             </div>
 
                             <div class="flex items-start gap-1.5 text-slate-600">
                                 <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5"></i>
-                                <span>Drop-Point: <strong class="text-slate-800">${escapeHtml(item.dropPoint)}</strong></span>
+                                <span>COD: <strong class="text-slate-800">${escapeHtml(item.dropPoint)}</strong></span>
                             </div>
 
-                            <!-- Tombol Aksi -->
-                            <div class="pt-3">
+                            <!-- Tombol Aksi & Hubungi Penjual -->
+                            <div class="pt-3 flex items-center gap-2">
                                 <button type="button" onclick="openTransactionModal(${item.id})"
-                                    class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-all ${btnClass}">
-                                    <i data-lucide="${btnIcon}" class="w-4 h-4"></i>
+                                    class="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md active:scale-[0.98] transition-all ${btnClass}">
+                                    <i data-lucide="${btnIcon}" class="w-4 h-4 shrink-0"></i>
                                     <span>${btnText}</span>
                                 </button>
+                                <a href="${contactInfo.url}" target="_blank" rel="noopener noreferrer" title="Hubungi ${escapeHtml(item.seller)} (${escapeHtml(item.contact)})"
+                                    class="py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border border-slate-200 bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 text-slate-700 hover:text-emerald-700 transition-all shrink-0">
+                                    <i data-lucide="${contactInfo.isWa ? 'message-circle' : 'at-sign'}" class="w-4 h-4 text-emerald-600"></i>
+                                    <span>${contactInfo.isWa ? 'WA' : 'Sosmed'}</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -1094,7 +1226,7 @@
         }
 
         // =====================================================================
-        // RENDER PANEL RINGKASAN "PENGAJUAN TRANSAKSI TERBARU" DI HALAMAN UTAMA
+        // PANEL RINGKASAN "PENGAJUAN TRANSAKSI TERBARU"
         // =====================================================================
         function renderLatestActivityPanel() {
             const panel = document.getElementById('latest-activity-panel');
@@ -1112,6 +1244,7 @@
             }
 
             const latest = myActivities[0];
+            const contactInfo = buildContactLink(latest.contact, latest.itemName);
             const badgeStyle = latest.type === 'Jual Beli'
                 ? 'bg-emerald-100 text-emerald-800'
                 : (latest.type === 'Sewa' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800');
@@ -1150,10 +1283,15 @@
                         </div>
                         ${extraRows}
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 pt-1">
-                            <div><span class="font-semibold text-slate-800">Penjual:</span> ${escapeHtml(latest.seller)} (${escapeHtml(latest.campus)})</div>
-                            <div><span class="font-semibold text-slate-800">Campus Drop-Point:</span> ${escapeHtml(latest.dropPoint)}</div>
-                            <div class="sm:col-span-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-700">
-                                <span class="font-bold text-slate-900">Catatan Jadwal:</span> ${escapeHtml(latest.note)}
+                            <div><span class="font-semibold text-slate-800">Penjual:</span> ${escapeHtml(latest.seller)} (${escapeHtml(latest.region)})</div>
+                            <div><span class="font-semibold text-slate-800">Lokasi COD:</span> ${escapeHtml(latest.dropPoint)}</div>
+                            <div class="sm:col-span-2 flex flex-wrap items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-700">
+                                <span><span class="font-bold text-slate-900">Catatan:</span> ${escapeHtml(latest.note)}</span>
+                                <a href="${contactInfo.url}" target="_blank" rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px]">
+                                    <i data-lucide="message-circle" class="w-3 h-3"></i>
+                                    <span>${contactInfo.label} (${escapeHtml(latest.contact)})</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -1165,7 +1303,7 @@
         }
 
         // =====================================================================
-        // MODAL TRANSAKSI (#tx-modal dengan #tx-form)
+        // MODAL TRANSAKSI (#tx-modal)
         // =====================================================================
         function openTransactionModal(itemId) {
             const item = itemsData.find(i => i.id === itemId);
@@ -1181,7 +1319,9 @@
             const priceEl = document.getElementById('tx-item-price');
             const sellerEl = document.getElementById('tx-item-seller');
             const dynamicFields = document.getElementById('tx-dynamic-fields');
-            const dropPointSelect = document.getElementById('tx-droppoint');
+            const codDisplay = document.getElementById('tx-cod-display');
+            const contactDisplay = document.getElementById('tx-contact-display');
+            const contactBtn = document.getElementById('tx-contact-btn');
             const submitBtn = document.getElementById('tx-submit-btn');
 
             if (item.image) {
@@ -1192,16 +1332,12 @@
 
             nameEl.textContent = item.name;
             priceEl.textContent = item.priceDisplay;
-            sellerEl.textContent = `${item.seller} (KTM Terverifikasi) • ${item.campus}`;
+            sellerEl.textContent = `${item.seller} • ${item.region}`;
+            codDisplay.textContent = `${item.dropPoint} (${item.region})`;
 
-            dropPointSelect.innerHTML = `
-                <option value="${escapeHtml(item.dropPoint)} (Rekomendasi Penjual)">${escapeHtml(item.dropPoint)} (Rekomendasi Penjual)</option>
-                <option value="Kantin Pusat ULM">Kantin Pusat ULM</option>
-                <option value="Perpustakaan Poliban">Perpustakaan Poliban</option>
-                <option value="Gerbang Utama UNISKA">Gerbang Utama UNISKA</option>
-                <option value="Masjid Kampus UIN Antasari">Masjid Kampus UIN Antasari</option>
-                <option value="Lobby Utama UM Banjarmasin">Lobby Utama UM Banjarmasin</option>
-            `;
+            const contactInfo = buildContactLink(item.contact, item.name);
+            contactDisplay.textContent = item.contact || 'Tidak dicantumkan';
+            contactBtn.href = contactInfo.url;
 
             if (item.type === 'Jual Beli') {
                 header.className = "px-6 py-4 bg-emerald-600 text-white flex items-center justify-between";
@@ -1216,18 +1352,18 @@
                     <div>
                         <label for="tx-payment" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Metode Pembayaran</label>
                         <select id="tx-payment" name="paymentMethod" class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            <option value="COD Tunai di Campus Drop-Point">COD Tunai di Campus Drop-Point (Cek Barang Dulu)</option>
+                            <option value="COD Tunai di Lokasi Penjual">COD Tunai saat Ketemu (Cek Barang Dulu)</option>
                             <option value="QRIS / Transfer E-Wallet (Dana/GoPay/ShopeePay)">QRIS / Transfer E-Wallet saat Ketemu</option>
                         </select>
                     </div>
                     <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs">
-                        <span class="font-semibold text-emerald-800">Total Pembayaran (Bebas Ongkir):</span>
+                        <span class="font-semibold text-emerald-800">Total Pembayaran (COD):</span>
                         <span class="text-sm font-extrabold text-emerald-700">${escapeHtml(item.priceDisplay)}</span>
                     </div>
                 `;
             } else if (item.type === 'Sewa') {
                 header.className = "px-6 py-4 bg-blue-600 text-white flex items-center justify-between";
-                title.textContent = "Pengajuan Sewa Barang Mahasiswa";
+                title.textContent = "Pengajuan Sewa Barang";
                 badge.className = "inline-block px-2 py-0.5 text-[10px] font-bold rounded uppercase mb-1 bg-blue-100 text-blue-800";
                 badge.textContent = "SEWA";
                 priceEl.className = "text-xs font-bold text-blue-700";
@@ -1308,7 +1444,6 @@
             e.preventDefault();
             if (!selectedItemForTx) return;
 
-            const dropPoint = document.getElementById('tx-droppoint').value;
             const note = document.getElementById('tx-note').value.trim();
 
             let detailSummary = '';
@@ -1342,8 +1477,9 @@
                 itemName: selectedItemForTx.name,
                 type: selectedItemForTx.type,
                 seller: selectedItemForTx.seller,
-                campus: selectedItemForTx.campus,
-                dropPoint: dropPoint,
+                region: selectedItemForTx.region,
+                dropPoint: selectedItemForTx.dropPoint,
+                contact: selectedItemForTx.contact,
                 detail: detailSummary,
                 paymentMethod: paymentMethod,
                 rentDuration: rentDuration,
@@ -1367,13 +1503,13 @@
 
             showToast(
                 `${newActivity.type} Berhasil Diajukan!`,
-                `Pengajuan untuk "${newActivity.itemName}" tersimpan. Silakan temui ${newActivity.seller} di ${dropPoint}.`,
+                `Hubungi ${newActivity.seller} (${newActivity.contact}) untuk COD di ${newActivity.dropPoint}.`,
                 'success'
             );
         }
 
         // =====================================================================
-        // MODAL TAMBAH BARANG BARU (#add-modal dengan #add-form)
+        // MODAL TAMBAH BARANG BARU (#add-modal)
         // =====================================================================
         function openAddModal() {
             document.getElementById('add-modal').classList.remove('hidden');
@@ -1416,7 +1552,8 @@
             const category = document.getElementById('new-category').value;
             const seller = document.getElementById('new-seller').value.trim();
             const condition = document.getElementById('new-condition').value;
-            const campus = document.getElementById('new-campus').value;
+            const contact = document.getElementById('new-contact').value.trim();
+            const region = document.getElementById('new-region').value;
             const dropPoint = document.getElementById('new-droppoint').value.trim();
 
             let priceNumeric = 0;
@@ -1458,8 +1595,9 @@
                 unitLabel,
                 condition,
                 seller,
-                campus,
+                region,
                 dropPoint,
+                contact,
                 icon: categoryIcons[category] || 'package',
                 bgGradient,
                 iconColor,
@@ -1475,7 +1613,7 @@
             updateAllPillCount();
             resetFilters();
 
-            showToast("Barang Berhasil Diterbitkan!", `"${name}" sekarang tampil di katalog lintas kampus CAMPUS MART.`, "success");
+            showToast("Barang Berhasil Diterbitkan!", `"${name}" sekarang tampil di katalog CAMPUS MART (${region}).`, "success");
         }
 
         // =====================================================================
@@ -1505,6 +1643,7 @@
             } else {
                 list.innerHTML = myActivities.map((act, index) => {
                     const isHighlighted = (isJustSubmitted && index === 0) || (lastSubmittedActivityId && act.id === lastSubmittedActivityId && index === 0);
+                    const contactInfo = buildContactLink(act.contact, act.itemName);
                     const badgeStyle = act.type === 'Jual Beli' 
                         ? 'bg-emerald-100 text-emerald-800' 
                         : (act.type === 'Sewa' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800');
@@ -1545,10 +1684,15 @@
                             <h4 class="font-bold text-sm text-slate-900">${escapeHtml(act.itemName)}</h4>
                             ${extraDetailBlock}
                             <div class="text-xs text-slate-600 pt-1.5 border-t border-slate-200/80 space-y-1">
-                                <div>Penjual: <strong class="text-slate-800">${escapeHtml(act.seller)}</strong> (${escapeHtml(act.campus)})</div>
-                                <div>Campus Drop-Point: <strong class="text-slate-800">${escapeHtml(act.dropPoint)}</strong></div>
-                                <div class="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 mt-1">
-                                    <span class="font-bold text-slate-900">Catatan Jadwal:</span> ${escapeHtml(act.note)}
+                                <div>Penjual: <strong class="text-slate-800">${escapeHtml(act.seller)}</strong> (${escapeHtml(act.region)})</div>
+                                <div>Lokasi COD: <strong class="text-slate-800">${escapeHtml(act.dropPoint)}</strong></div>
+                                <div class="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-lg px-2.5 py-2 text-slate-700 mt-1">
+                                    <span><span class="font-bold text-slate-900">Catatan:</span> ${escapeHtml(act.note)}</span>
+                                    <a href="${contactInfo.url}" target="_blank" rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px]">
+                                        <i data-lucide="message-circle" class="w-3 h-3"></i>
+                                        <span>${contactInfo.label}</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -1564,7 +1708,6 @@
             document.getElementById('activity-modal').classList.add('hidden');
         }
 
-        // Tutup modal jika klik area backdrop luar
         function handleBackdropClick(event, modalId) {
             if (event.target && event.target.id === modalId) {
                 if (modalId === 'tx-modal') closeTransactionModal();
@@ -1573,7 +1716,6 @@
             }
         }
 
-        // Tutup modal dengan tombol Escape
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeTransactionModal();
@@ -1582,7 +1724,6 @@
             }
         });
 
-        // Inisialisasi saat halaman dimuat
         window.onload = function () {
             loadStateFromStorage();
             renderKtmButton();

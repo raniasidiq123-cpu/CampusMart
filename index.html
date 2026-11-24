@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -224,8 +226,11 @@
                         </button>
                     </div>
 
-                    <div class="text-xs text-slate-500">
-                        Menampilkan <strong id="result-count" class="text-slate-800">9</strong> barang tersedia
+                    <div class="flex items-center gap-3 text-xs text-slate-500">
+                        <span id="db-status-badge" class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Online
+                        </span>
+                        <span>Menampilkan <strong id="result-count" class="text-slate-800">9</strong> barang</span>
                     </div>
                 </div>
             </div>
@@ -260,7 +265,7 @@
             <!-- Kartu produk dirender secara dinamis via JavaScript -->
         </div>
 
-        <!-- Empty State jika pencarian tidak ditemukan -->
+        <!-- Empty State -->
         <div id="empty-state" class="hidden text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-slate-300">
             <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i data-lucide="package-search" class="w-8 h-8"></i>
@@ -349,11 +354,10 @@
     </footer>
 
     <!-- =====================================================================
-         5. MODAL TRANSAKSI (#tx-modal dengan #tx-form)
+         5. MODAL TRANSAKSI (#tx-modal)
     ====================================================================== -->
     <div id="tx-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" onclick="handleBackdropClick(event, 'tx-modal')">
         <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden fade-in my-8">
-            <!-- Modal Header -->
             <div id="tx-modal-header" class="px-6 py-4 bg-emerald-600 text-white flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <i data-lucide="shopping-bag" id="tx-modal-icon" class="w-5 h-5"></i>
@@ -364,9 +368,7 @@
                 </button>
             </div>
 
-            <!-- Modal Body -->
             <form id="tx-form" onsubmit="submitTransaction(event)" class="p-6 space-y-4">
-                <!-- Ringkasan Barang -->
                 <div class="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
                     <div id="tx-item-icon-box" class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 overflow-hidden">
                         <i data-lucide="package" class="w-6 h-6"></i>
@@ -379,10 +381,9 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Fields Container -->
                 <div id="tx-dynamic-fields" class="space-y-4"></div>
 
-                <!-- Info Lokasi COD (Ditentukan Penjual) & Kontak -->
+                <!-- Info Lokasi COD & Kontak Penjual -->
                 <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
                     <div class="flex items-start gap-2">
                         <i data-lucide="map-pin" class="w-4 h-4 text-rose-500 shrink-0 mt-0.5"></i>
@@ -404,7 +405,6 @@
                     </div>
                 </div>
 
-                <!-- Catatan Jadwal -->
                 <div>
                     <label for="tx-note" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
                         Jadwal &amp; Catatan untuk Penjual
@@ -413,7 +413,6 @@
                         class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
 
-                <!-- Submit Buttons -->
                 <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
                     <button type="button" onclick="closeTransactionModal()"
                         class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-all">
@@ -429,7 +428,7 @@
     </div>
 
     <!-- =====================================================================
-         6. MODAL TAMBAH BARANG BARU (#add-modal dengan #add-form)
+         6. MODAL TAMBAH BARANG BARU (#add-modal)
     ====================================================================== -->
     <div id="add-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" onclick="handleBackdropClick(event, 'add-modal')">
         <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden fade-in my-8">
@@ -489,7 +488,6 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Price / Target Barter -->
                 <div id="new-price-wrapper">
                     <label for="new-price-num" id="new-price-label" class="block text-xs font-bold text-slate-700 uppercase mb-1">Harga Jual (Rp)</label>
                     <input type="number" id="new-price-num" name="price" min="1000" step="500" value="50000" required
@@ -519,7 +517,6 @@
                     </div>
                 </div>
 
-                <!-- Nomor WA / Akun Sosmed Penjual -->
                 <div>
                     <label for="new-contact" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nomor WhatsApp / Akun Sosmed</label>
                     <input type="text" id="new-contact" name="contact" required placeholder="Contoh: 081234567890 atau @instagram_kamu"
@@ -527,7 +524,6 @@
                     <p class="text-[11px] text-slate-500 mt-1">Isi nomor WA (08...) biar pembeli bisa langsung klik tombol chat WhatsApp.</p>
                 </div>
 
-                <!-- Daerah / Kecamatan & Lokasi COD -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label for="new-region" class="block text-xs font-bold text-slate-700 uppercase mb-1">Daerah / Kecamatan (Kalsel)</label>
@@ -594,8 +590,8 @@
                         class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200">
                         Batal
                     </button>
-                    <button type="submit"
-                        class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md">
+                    <button type="submit" id="btn-submit-new-item"
+                        class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md transition-all">
                         Terbitkan ke Katalog
                     </button>
                 </div>
@@ -627,11 +623,9 @@
                     </div>
                 </div>
 
-                <div id="activity-list" class="space-y-3 max-h-[58vh] overflow-y-auto pr-1">
-                    <!-- Daftar transaksi dirender via JS -->
-                </div>
+                <div id="activity-list" class="space-y-3 max-h-[58vh] overflow-y-auto pr-1"></div>
                 <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                    <span class="text-xs text-slate-500">Data tersimpan otomatis di browser kamu.</span>
+                    <span class="text-xs text-slate-500">Riwayat pengajuan tersimpan di perangkat ini.</span>
                     <button type="button" onclick="closeActivityModal()"
                         class="px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200">
                         Tutup
@@ -642,12 +636,16 @@
     </div>
 
     <!-- =====================================================================
-         JAVASCRIPT LOGIC, PERSISTENSI LOCALSTORAGE & DATA DUMMY KALSEL
+         JAVASCRIPT LOGIC & KONEKSI DATABASE SUPABASE
     ====================================================================== -->
     <script>
-        // Kunci localStorage versi 2 (Kalsel + Kontak Penjual)
+        // Konfigurasi Supabase (Database Online)
+        const SUPABASE_URL = 'https://hxcqdllahdvyisrjfyic.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_DV4jqpE11-n0UQmQjg71Mw_LorVMEJ8';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Kunci localStorage (hanya untuk Aktivitas Saya & Status KTM di perangkat masing-masing)
         const STORAGE_KEYS = {
-            ITEMS: 'campus-mart-items-kalsel-v2',
             ACTIVITIES: 'campus-mart-activities-kalsel-v2',
             KTM: 'campus-mart-ktm-v1'
         };
@@ -822,12 +820,11 @@
         let isKtmVerified = false;
         let currentTypeFilter = 'Semua';
         let selectedItemForTx = null;
-        let itemsData = [];
+        let itemsData = [...DEFAULT_ITEMS];
         let myActivities = [];
         let lastSubmittedActivityId = null;
         let uploadedImageDataUrl = '';
 
-        // Helper Lucide Icons
         function refreshIcons() {
             try {
                 if (window.lucide && typeof window.lucide.createIcons === 'function') {
@@ -836,7 +833,6 @@
             } catch (err) {}
         }
 
-        // Helper Escape HTML
         function escapeHtml(value) {
             return String(value ?? '')
                 .replace(/&/g, '&amp;')
@@ -846,12 +842,10 @@
                 .replace(/'/g, '&#39;');
         }
 
-        // Helper Format Link Kontak (WhatsApp atau Sosmed)
         function buildContactLink(contactRaw, itemName) {
             const raw = String(contactRaw || '').trim();
             if (!raw) return { url: '#', label: 'Kontak belum diisi', isWa: false };
 
-            // Cek apakah nomor HP/WA (hanya angka, spasi, +, -)
             const digitsOnly = raw.replace(/[^0-9]/g, '');
             if (digitsOnly.length >= 9 && /^[\d\s+\-()]+$/.test(raw)) {
                 let waNumber = digitsOnly;
@@ -868,12 +862,10 @@
                 };
             }
 
-            // Jika URL langsung
             if (/^https?:\/\//i.test(raw)) {
                 return { url: raw, label: 'Buka Sosmed', isWa: false };
             }
 
-            // Jika username Instagram (@nama)
             const cleanHandle = raw.replace(/^@/, '');
             return {
                 url: `https://instagram.com/${encodeURIComponent(cleanHandle)}`,
@@ -882,7 +874,6 @@
             };
         }
 
-        // Storage Helpers
         function readStorage(key, fallback) {
             try {
                 const raw = window.localStorage.getItem(key);
@@ -899,21 +890,7 @@
             } catch (err) {}
         }
 
-        function persistAllState() {
-            writeStorage(STORAGE_KEYS.ITEMS, itemsData);
-            writeStorage(STORAGE_KEYS.ACTIVITIES, myActivities);
-            writeStorage(STORAGE_KEYS.KTM, isKtmVerified);
-        }
-
-        function loadStateFromStorage() {
-            const storedItems = readStorage(STORAGE_KEYS.ITEMS, null);
-            if (Array.isArray(storedItems) && storedItems.length > 0) {
-                itemsData = storedItems;
-            } else {
-                itemsData = DEFAULT_ITEMS.map(item => ({ ...item }));
-                writeStorage(STORAGE_KEYS.ITEMS, itemsData);
-            }
-
+        function loadLocalUserState() {
             const storedActivities = readStorage(STORAGE_KEYS.ACTIVITIES, null);
             myActivities = Array.isArray(storedActivities) ? storedActivities : [];
 
@@ -921,7 +898,39 @@
             isKtmVerified = typeof storedKtm === 'boolean' ? storedKtm : false;
         }
 
-        // Format Rupiah
+        // Ambil Data Barang dari Database Online Supabase
+        async function fetchItemsFromSupabase() {
+            const badge = document.getElementById('db-status-badge');
+            try {
+                const { data, error } = await supabaseClient
+                    .from('items')
+                    .select('*')
+                    .order('id', { ascending: false });
+
+                if (error) throw error;
+
+                // Gabungkan barang dari database online (paling atas) + data contoh bawaan
+                const dbItems = Array.isArray(data) ? data : [];
+                const dbIds = new Set(dbItems.map(i => i.id));
+                const merged = [...dbItems, ...DEFAULT_ITEMS.filter(d => !dbIds.has(d.id))];
+                itemsData = merged;
+
+                if (badge) {
+                    badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Live Online`;
+                    badge.className = "inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600";
+                }
+            } catch (err) {
+                console.error('Gagal mengambil data dari Supabase:', err);
+                if (badge) {
+                    badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-500"></span> Mode Offline`;
+                    badge.className = "inline-flex items-center gap-1 text-[11px] font-semibold text-amber-600";
+                }
+            }
+
+            updateAllPillCount();
+            applyFilters();
+        }
+
         function formatRupiah(angka) {
             return new Intl.NumberFormat('id-ID', {
                 style: 'currency',
@@ -954,7 +963,7 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    uploadedImageDataUrl = canvas.toDataURL('image/jpeg', 0.78);
+                    uploadedImageDataUrl = canvas.toDataURL('image/jpeg', 0.72);
                     document.getElementById('image-preview').src = uploadedImageDataUrl;
                     document.getElementById('image-preview-wrapper').classList.remove('hidden');
                     document.getElementById('upload-label-text').textContent = 'Ganti Foto Barang';
@@ -974,7 +983,6 @@
             document.getElementById('upload-label-text').textContent = 'Pilih Foto dari Galeri / Laptop';
         }
 
-        // Toast Notification
         function showToast(title, message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -1008,7 +1016,6 @@
             }, 3800);
         }
 
-        // Update tombol Verifikasi KTM
         function renderKtmButton() {
             const btn = document.getElementById('btn-verify-ktm');
             const icon = document.getElementById('ktm-icon');
@@ -1035,7 +1042,7 @@
 
         function toggleKtmVerification() {
             isKtmVerified = !isKtmVerified;
-            persistAllState();
+            writeStorage(STORAGE_KEYS.KTM, isKtmVerified);
             renderKtmButton();
 
             if (isKtmVerified) {
@@ -1050,7 +1057,6 @@
             if (allPill) allPill.textContent = `Semua (${itemsData.length})`;
         }
 
-        // Filter Tipe Transaksi
         function setTypeFilter(type) {
             currentTypeFilter = type;
             document.querySelectorAll('.type-pill').forEach(btn => {
@@ -1085,8 +1091,8 @@
             const region = document.getElementById('filter-region').value;
 
             const filtered = itemsData.filter(item => {
-                const matchKeyword = item.name.toLowerCase().includes(keyword) || 
-                                     item.priceDisplay.toLowerCase().includes(keyword) ||
+                const matchKeyword = (item.name || '').toLowerCase().includes(keyword) || 
+                                     (item.priceDisplay || '').toLowerCase().includes(keyword) ||
                                      (item.region || '').toLowerCase().includes(keyword) ||
                                      (item.dropPoint || '').toLowerCase().includes(keyword) ||
                                      (item.seller || '').toLowerCase().includes(keyword);
@@ -1100,7 +1106,6 @@
             renderCatalog(filtered);
         }
 
-        // Render Katalog Produk
         function renderCatalog(items) {
             const grid = document.getElementById('catalog-grid');
             const emptyState = document.getElementById('empty-state');
@@ -1149,7 +1154,7 @@
                        <span class="absolute bottom-2.5 left-3 text-[11px] font-semibold text-slate-800 bg-white/90 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-sm">
                            ${escapeHtml(item.condition)}
                        </span>`
-                    : `<div class="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center ${item.iconColor} mb-2">
+                    : `<div class="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center ${item.iconColor || 'text-emerald-600'} mb-2">
                            <i data-lucide="${escapeHtml(item.icon || 'package')}" class="w-8 h-8"></i>
                        </div>
                        <span class="text-[11px] font-medium text-slate-600 bg-white/80 px-2.5 py-0.5 rounded-full">
@@ -1159,8 +1164,7 @@
                 const card = document.createElement('article');
                 card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col overflow-hidden fade-in";
                 card.innerHTML = `
-                    <!-- Visual Header -->
-                    <div class="relative h-44 bg-gradient-to-br ${item.bgGradient} flex flex-col items-center justify-center ${item.image ? 'p-0' : 'p-4'} border-b border-slate-100 overflow-hidden">
+                    <div class="relative h-44 bg-gradient-to-br ${item.bgGradient || 'from-emerald-50 to-teal-100'} flex flex-col items-center justify-center ${item.image ? 'p-0' : 'p-4'} border-b border-slate-100 overflow-hidden">
                         <span class="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider shadow-sm ${badgeClass}">
                             ${escapeHtml(item.type)}
                         </span>
@@ -1170,7 +1174,6 @@
                         ${visualContent}
                     </div>
 
-                    <!-- Konten Kartu -->
                     <div class="p-5 flex-1 flex flex-col justify-between">
                         <div>
                             <h3 class="font-bold text-slate-900 text-base leading-snug mb-1.5">
@@ -1181,7 +1184,6 @@
                             </div>
                         </div>
 
-                        <!-- Info Penjual, Daerah, COD & Kontak -->
                         <div class="space-y-2 pt-3 border-t border-slate-100 text-xs">
                             <div class="flex items-center justify-between gap-2">
                                 <div class="flex items-center gap-1.5 font-semibold text-slate-800 min-w-0">
@@ -1203,7 +1205,6 @@
                                 <span>COD: <strong class="text-slate-800">${escapeHtml(item.dropPoint)}</strong></span>
                             </div>
 
-                            <!-- Tombol Aksi & Hubungi Penjual -->
                             <div class="pt-3 flex items-center gap-2">
                                 <button type="button" onclick="openTransactionModal(${item.id})"
                                     class="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md active:scale-[0.98] transition-all ${btnClass}">
@@ -1225,9 +1226,6 @@
             refreshIcons();
         }
 
-        // =====================================================================
-        // PANEL RINGKASAN "PENGAJUAN TRANSAKSI TERBARU"
-        // =====================================================================
         function renderLatestActivityPanel() {
             const panel = document.getElementById('latest-activity-panel');
             const content = document.getElementById('latest-activity-content');
@@ -1302,9 +1300,7 @@
             refreshIcons();
         }
 
-        // =====================================================================
-        // MODAL TRANSAKSI (#tx-modal)
-        // =====================================================================
+        // MODAL TRANSAKSI
         function openTransactionModal(itemId) {
             const item = itemsData.find(i => i.id === itemId);
             if (!item) return;
@@ -1496,7 +1492,7 @@
             myActivities.unshift(newActivity);
             lastSubmittedActivityId = newActivity.id;
 
-            persistAllState();
+            writeStorage(STORAGE_KEYS.ACTIVITIES, myActivities);
             closeTransactionModal();
             renderLatestActivityPanel();
             openActivityModal(true);
@@ -1508,9 +1504,7 @@
             );
         }
 
-        // =====================================================================
-        // MODAL TAMBAH BARANG BARU (#add-modal)
-        // =====================================================================
+        // MODAL TAMBAH BARANG BARU (SIMPAN KE SUPABASE)
         function openAddModal() {
             document.getElementById('add-modal').classList.remove('hidden');
             updateNewItemPriceLabel();
@@ -1544,8 +1538,12 @@
             }
         }
 
-        function submitNewItem(e) {
+        async function submitNewItem(e) {
             e.preventDefault();
+
+            const submitBtn = document.getElementById('btn-submit-new-item');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Menerbitkan...';
 
             const name = document.getElementById('new-name').value.trim();
             const type = document.getElementById('new-type').value;
@@ -1604,21 +1602,28 @@
                 image: uploadedImageDataUrl
             };
 
-            itemsData.unshift(newItem);
-            persistAllState();
+            try {
+                const { error } = await supabaseClient.from('items').insert([newItem]);
+                if (error) throw error;
 
-            document.getElementById('add-form').reset();
-            document.getElementById('new-seller').value = 'Muhammad Arifin (Tim F)';
-            closeAddModal();
-            updateAllPillCount();
-            resetFilters();
-
-            showToast("Barang Berhasil Diterbitkan!", `"${name}" sekarang tampil di katalog CAMPUS MART (${region}).`, "success");
+                itemsData.unshift(newItem);
+                showToast("Barang Berhasil Diterbitkan!", `"${name}" sudah online dan bisa dilihat di semua HP & Laptop.`, "success");
+            } catch (err) {
+                console.error('Gagal menyimpan ke Supabase:', err);
+                itemsData.unshift(newItem);
+                showToast("Tersimpan Sementara", "Gagal sinkron ke server database. Pastikan tabel SQL sudah di-Run di Supabase.", "warning");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Terbitkan ke Katalog';
+                document.getElementById('add-form').reset();
+                document.getElementById('new-seller').value = 'Muhammad Arifin (Tim F)';
+                closeAddModal();
+                updateAllPillCount();
+                resetFilters();
+            }
         }
 
-        // =====================================================================
-        // MODAL AKTIVITAS SAYA (#activity-modal)
-        // =====================================================================
+        // MODAL AKTIVITAS SAYA
         function openActivityModal(isJustSubmitted = false) {
             const modal = document.getElementById('activity-modal');
             const list = document.getElementById('activity-list');
@@ -1725,11 +1730,10 @@
         });
 
         window.onload = function () {
-            loadStateFromStorage();
+            loadLocalUserState();
             renderKtmButton();
-            updateAllPillCount();
             renderLatestActivityPanel();
-            applyFilters();
+            fetchItemsFromSupabase();
             refreshIcons();
         };
     </script>

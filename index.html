@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAMPUS MART — Jual Beli, Sewa, &amp; Barter Barang Mahasiswa Lintas Kampus</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Custom scrollbar untuk tampilan lebih bersih */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .fade-in {
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased flex flex-col min-h-screen overflow-x-hidden">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-[60] flex flex-col gap-2 pointer-events-none max-w-[90vw]"></div>
+
+    <!-- =====================================================================
+         1. HEADER & BRANDING
+    ====================================================================== -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap items-center justify-between py-3 md:h-20 gap-3">
+                
+                <!-- Brand Logo & Tagline (Klik untuk Reset Filter) -->
+                <button type="button" onclick="resetFilters()" class="flex items-center gap-3 text-left focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-2xl p-1 -ml-1 transition-all">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 shrink-0">
+                        <i data-lucide="recycle" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">CAMPUS <span class="text-emerald-600">MART</span></span>
+                            <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">MVP Demo</span>
+                        </div>
+                        <p class="text-[11px] sm:text-xs text-slate-500 hidden sm:block">Jual Beli, Sewa, &amp; Barter Barang Mahasiswa Lintas Kampus</p>
+                    </div>
+                </button>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Simulasi Verifikasi KTM -->
+                    <button type="button" id="btn-verify-ktm" onclick="toggleKtmVerification()" title="Klik untuk simulasi verifikasi mahasiswa"
+                        class="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold border transition-all duration-200 bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100">
+                        <i data-lucide="shield-alert" id="ktm-icon" class="w-4 h-4 text-amber-600 shrink-0"></i>
+                        <span id="ktm-text" class="hidden md:inline">Belum Verifikasi KTM</span>
+                        <span id="ktm-text-mobile" class="md:hidden">Verifikasi</span>
+                    </button>
+
+                    <!-- Tombol Aktivitas / Transaksi Saya -->
+                    <button type="button" id="btn-open-activity" onclick="openActivityModal(false)"
+                        class="relative flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 text-slate-600 shrink-0"></i>
+                        <span class="hidden sm:inline">Aktivitas Saya</span>
+                        <span id="activity-badge" class="inline-flex items-center justify-center min-w-[20px] px-1.5 py-0.5 text-[11px] font-bold leading-none text-white bg-emerald-600 rounded-full">0</span>
+                    </button>
+
+                    <!-- Tombol + Pasang Barang -->
+                    <button type="button" id="btn-open-add" onclick="openAddModal()"
+                        class="flex items-center gap-1.5 px-3.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] shadow-md shadow-emerald-600/20 transition-all">
+                        <i data-lucide="plus-circle" class="w-4 h-4 shrink-0"></i>
+                        <span>Pasang Barang</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- =====================================================================
+         2. HERO SECTION & PENCARIAN CEPAT
+    ====================================================================== -->
+    <section class="bg-gradient-to-b from-emerald-50/80 via-white to-slate-50 border-b border-slate-200/80 pt-7 pb-9">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center mb-7">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-emerald-200 shadow-sm text-xs font-semibold text-emerald-700 mb-3">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                    <span>Bebas Ongkir via Campus Drop-Point • 100% Komunitas Mahasiswa</span>
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-3">
+                    Ekonomi Sirkular Mahasiswa: <span class="text-emerald-600">Jual, Sewa, &amp; Barter</span> Antar-Kampus
+                </h1>
+                <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+                    Jangan biarkan barang kos dan buku kuliah menumpuk tak terpakai. Temukan perlengkapan kuliah hemat budget atau tukar barang dengan mahasiswa lintas kampus di satu kota.
+                </p>
+            </div>
+
+            <!-- Search & Filter Box -->
+            <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-lg shadow-slate-200/60 border border-slate-200/90 max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+                    
+                    <!-- Search Input -->
+                    <div class="md:col-span-5 relative">
+                        <label for="search-input" class="sr-only">Cari Barang</label>
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                        <input type="text" id="search-input" oninput="applyFilters()"
+                            placeholder="Cari meja belajar, kalkulator, buku akuntansi..."
+                            class="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all">
+                    </div>
+
+                    <!-- Filter Kategori -->
+                    <div class="md:col-span-3">
+                        <label for="filter-category" class="sr-only">Kategori</label>
+                        <select id="filter-category" onchange="applyFilters()"
+                            class="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white text-slate-700 font-medium">
+                            <option value="Semua">Semua Kategori</option>
+                            <option value="Perlengkapan Kos">Perlengkapan Kos</option>
+                            <option value="Buku & Alat Kuliah">Buku &amp; Alat Kuliah</option>
+                            <option value="Elektronik">Elektronik</option>
+                            <option value="Praktikum & Hobi">Praktikum &amp; Hobi</option>
+                        </select>
+                    </div>
+
+                    <!-- Filter Kampus -->
+                    <div class="md:col-span-4">
+                        <label for="filter-campus" class="sr-only">Kampus</label>
+                        <select id="filter-campus" onchange="applyFilters()"
+                            class="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white text-slate-700 font-medium">
+                            <option value="Semua">Semua Kampus (Lintas Kampus)</option>
+                            <option value="Universitas Lambung Mangkurat (ULM)">Universitas Lambung Mangkurat (ULM)</option>
+                            <option value="Politeknik Negeri Banjarmasin (Poliban)">Politeknik Negeri Banjarmasin (Poliban)</option>
+                            <option value="Universitas Islam Kalimantan (UNISKA)">Universitas Islam Kalimantan (UNISKA)</option>
+                            <option value="UIN Antasari">UIN Antasari</option>
+                            <option value="Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)">Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <!-- Filter Pills: Tipe Transaksi -->
+                <div class="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-slate-100">
+                    <div class="flex flex-wrap items-center gap-2" id="type-filter-pills">
+                        <span class="text-xs font-semibold text-slate-400 mr-1">Tipe:</span>
+                        <button type="button" onclick="setTypeFilter('Semua')" data-type="Semua" id="pill-all"
+                            class="type-pill active px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white transition-all">
+                            Semua (9)
+                        </button>
+                        <button type="button" onclick="setTypeFilter('Jual Beli')" data-type="Jual Beli"
+                            class="type-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-all">
+                            🟢 Jual Beli
+                        </button>
+                        <button type="button" onclick="setTypeFilter('Sewa')" data-type="Sewa"
+                            class="type-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition-all">
+                            🔵 Sewa
+                        </button>
+                        <button type="button" onclick="setTypeFilter('Barter')" data-type="Barter"
+                            class="type-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition-all">
+                            🟣 Barter
+                        </button>
+                    </div>
+
+                    <div class="text-xs text-slate-500">
+                        Menampilkan <strong id="result-count" class="text-slate-800">9</strong> barang tersedia
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         3. RINGKASAN PENGAJUAN TERBARU + KATALOG BARANG
+    ====================================================================== -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        
+        <!-- Panel Ringkasan "Pengajuan Transaksi Terbaru" (Tampil langsung di halaman utama saat ada aktivitas) -->
+        <section id="latest-activity-panel" class="hidden bg-white rounded-2xl border-2 border-emerald-200 shadow-md shadow-emerald-600/5 overflow-hidden fade-in" aria-live="polite">
+            <div class="px-5 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 shrink-0"></i>
+                    <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wide">Pengajuan Transaksi Terbaru</h2>
+                    <span class="px-2 py-0.5 text-[10px] font-extrabold bg-white/20 text-white rounded-full">Pengajuan Berhasil Dikirim</span>
+                </div>
+                <button type="button" onclick="openActivityModal(false)"
+                    class="text-xs font-bold bg-white/15 hover:bg-white/25 px-3 py-1 rounded-lg transition-colors">
+                    Lihat Semua Aktivitas (<span id="latest-panel-count">0</span>)
+                </button>
+            </div>
+            <div id="latest-activity-content" class="p-4 sm:p-5">
+                <!-- Diisi secara dinamis via JS -->
+            </div>
+        </section>
+
+        <!-- Grid Produk -->
+        <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Kartu produk dirender secara dinamis via JavaScript -->
+        </div>
+
+        <!-- Empty State jika pencarian tidak ditemukan -->
+        <div id="empty-state" class="hidden text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-slate-300">
+            <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="package-search" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-1">Barang tidak ditemukan</h3>
+            <p class="text-sm text-slate-500 max-w-md mx-auto mb-4">Coba ubah kata kunci pencarian, pilih kategori lain, atau tampilkan semua kampus untuk melihat lebih banyak barang.</p>
+            <button type="button" onclick="resetFilters()" class="px-4 py-2.5 bg-emerald-600 text-white text-sm font-semibold rounded-xl hover:bg-emerald-700 transition-all">
+                Reset Semua Filter
+            </button>
+        </div>
+
+    </main>
+
+    <!-- =====================================================================
+         4. FOOTER INFORMASI & PANDUAN
+    ====================================================================== -->
+    <footer class="bg-slate-900 text-slate-300 border-t border-slate-800 mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
+                
+                <!-- Kolom 1: Tentang Campus Mart -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-3">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white">
+                            <i data-lucide="recycle" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-lg font-extrabold text-white tracking-tight">CAMPUS <span class="text-emerald-400">MART</span></span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-4">
+                        Platform ekonomi sirkular mahasiswa lintas kampus untuk jual beli, sewa, dan barter perlengkapan kuliah maupun kos secara aman, hemat, dan ramah lingkungan.
+                    </p>
+                    <div class="inline-block px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-emerald-400 font-semibold">
+                        Dikembangkan oleh Tim F — Program Studi Akuntansi
+                    </div>
+                </div>
+
+                <!-- Kolom 2: Cara Kerja 3 Mode Transaksi -->
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Cara Kerja 3 Mode Transaksi</h4>
+                    <ul class="space-y-2.5 text-sm text-slate-400">
+                        <li class="flex items-start gap-2">
+                            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-400 rounded shrink-0 mt-0.5">JUAL BELI</span>
+                            <span>Beli barang bekas layak pakai milik senior/mahasiswa lain dengan harga miring.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-blue-500/20 text-blue-400 rounded shrink-0 mt-0.5">SEWA</span>
+                            <span>Pinjam alat praktikum, kalkulator, atau buku referensi sesuai durasi kebutuhan ujian.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="px-1.5 py-0.5 text-[10px] font-bold bg-purple-500/20 text-purple-400 rounded shrink-0 mt-0.5">BARTER</span>
+                            <span>Tukar langsung barangmu yang tak terpakai dengan barang mahasiswa kampus lain tanpa uang tunai.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Kolom 3: Panduan Keamanan Campus Drop-Point -->
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Panduan Keamanan Campus Drop-Point</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span>Pastikan penjual memiliki badge <strong>KTM Terverifikasi</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span>Selalu lakukan serah terima di <strong>Campus Drop-Point</strong> resmi (Kantin Pusat, Perpustakaan, Gerbang Utama).</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                            <span>Cek kelayakan fisik barang sebelum melakukan pembayaran COD atau konfirmasi barter.</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+                <p>&copy; 2026 CAMPUS MART — Tim F (Sumiyati, Muhammad Arifin, Fitri Ariyanti, A.Md.Ak, Muhammad Saddam, Nia Rahmayanti, Muhammad Maulidi).</p>
+                <p>Prototipe MVP Proposal Ide Startup Mahasiswa.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =====================================================================
+         5. MODAL TRANSAKSI (#tx-modal dengan #tx-form)
+    ====================================================================== -->
+    <div id="tx-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" onclick="handleBackdropClick(event, 'tx-modal')">
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden fade-in my-8">
+            <!-- Modal Header -->
+            <div id="tx-modal-header" class="px-6 py-4 bg-emerald-600 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="shopping-bag" id="tx-modal-icon" class="w-5 h-5"></i>
+                    <h3 id="tx-modal-title" class="font-bold text-base sm:text-lg">Konfirmasi Pembelian</h3>
+                </div>
+                <button type="button" onclick="closeTransactionModal()" aria-label="Tutup modal transaksi" class="p-1.5 rounded-lg hover:bg-white/20 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <form id="tx-form" onsubmit="submitTransaction(event)" class="p-6 space-y-4">
+                <!-- Ringkasan Barang -->
+                <div class="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                    <div id="tx-item-icon-box" class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                        <i data-lucide="package" class="w-6 h-6"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <span id="tx-item-badge" class="inline-block px-2 py-0.5 text-[10px] font-bold rounded uppercase mb-1">JUAL BELI</span>
+                        <h4 id="tx-item-name" class="font-bold text-slate-900 text-sm truncate">Nama Barang</h4>
+                        <p id="tx-item-price" class="text-xs font-semibold text-emerald-700">Rp65.000</p>
+                        <p id="tx-item-seller" class="text-[11px] text-slate-500 mt-0.5">Penjual • Kampus</p>
+                    </div>
+                </div>
+
+                <!-- Dynamic Fields Container (Diisi via JS sesuai tipe: Jual Beli / Sewa / Barter) -->
+                <div id="tx-dynamic-fields" class="space-y-4"></div>
+
+                <!-- Pilih Campus Drop-Point -->
+                <div>
+                    <label for="tx-droppoint" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                        Titik Temu (Campus Drop-Point)
+                    </label>
+                    <select id="tx-droppoint" name="dropPoint" required
+                        class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <!-- Opsi diisi otomatis -->
+                    </select>
+                </div>
+
+                <!-- Catatan Jadwal -->
+                <div>
+                    <label for="tx-note" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                        Jadwal &amp; Catatan untuk Penjual
+                    </label>
+                    <input type="text" id="tx-note" name="scheduleNote" required placeholder="Contoh: Ketemuan jam 13.00 siang setelah kelas selesai"
+                        class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeTransactionModal()"
+                        class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-all">
+                        Batal
+                    </button>
+                    <button type="submit" id="tx-submit-btn"
+                        class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md transition-all">
+                        Konfirmasi Transaksi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         6. MODAL TAMBAH BARANG BARU (#add-modal dengan #add-form)
+    ====================================================================== -->
+    <div id="add-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" onclick="handleBackdropClick(event, 'add-modal')">
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden fade-in my-8">
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-400"></i>
+                    <h3 class="font-bold text-base sm:text-lg">Pasang Barang Mahasiswa Baru</h3>
+                </div>
+                <button type="button" onclick="closeAddModal()" aria-label="Tutup modal tambah barang" class="p-1.5 rounded-lg hover:bg-white/20 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="add-form" onsubmit="submitNewItem(event)" class="p-6 space-y-4">
+                <div>
+                    <label for="new-name" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Barang</label>
+                    <input type="text" id="new-name" name="name" required placeholder="Contoh: Setrika Listrik Philips / Buku Manajemen Keuangan"
+                        class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="new-type" class="block text-xs font-bold text-slate-700 uppercase mb-1">Tipe Transaksi</label>
+                        <select id="new-type" name="type" onchange="updateNewItemPriceLabel()" required
+                            class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="Jual Beli">Jual Beli</option>
+                            <option value="Sewa">Sewa</option>
+                            <option value="Barter">Barter</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="new-category" class="block text-xs font-bold text-slate-700 uppercase mb-1">Kategori</label>
+                        <select id="new-category" name="category" required
+                            class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="Perlengkapan Kos">Perlengkapan Kos</option>
+                            <option value="Buku & Alat Kuliah">Buku &amp; Alat Kuliah</option>
+                            <option value="Elektronik">Elektronik</option>
+                            <option value="Praktikum & Hobi">Praktikum &amp; Hobi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Dynamic Price / Target Barter -->
+                <div id="new-price-wrapper">
+                    <label for="new-price-num" id="new-price-label" class="block text-xs font-bold text-slate-700 uppercase mb-1">Harga Jual (Rp)</label>
+                    <input type="number" id="new-price-num" name="price" min="1000" step="500" value="50000" required
+                        class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <div id="new-barter-wrapper" class="hidden">
+                    <label for="new-barter-target" class="block text-xs font-bold text-slate-700 uppercase mb-1">Ingin Dibarter Dengan Apa?</label>
+                    <input type="text" id="new-barter-target" name="barterTarget" placeholder="Contoh: Rak Sepatu / Buku Akuntansi Biaya"
+                        class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="new-seller" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nama Penjual (Mahasiswa)</label>
+                        <input type="text" id="new-seller" name="seller" required value="Muhammad Arifin (Tim F)"
+                            class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div>
+                        <label for="new-condition" class="block text-xs font-bold text-slate-700 uppercase mb-1">Kondisi Barang</label>
+                        <select id="new-condition" name="condition" required
+                            class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="Mulus 95% (Seperti Baru)">Mulus 95% (Seperti Baru)</option>
+                            <option value="Layak Pakai 85%">Layak Pakai 85%</option>
+                            <option value="Terawat & Berfungsi Normal">Terawat &amp; Berfungsi Normal</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="new-campus" class="block text-xs font-bold text-slate-700 uppercase mb-1">Asal Kampus</label>
+                        <select id="new-campus" name="campus" required
+                            class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="Universitas Lambung Mangkurat (ULM)">Universitas Lambung Mangkurat (ULM)</option>
+                            <option value="Politeknik Negeri Banjarmasin (Poliban)">Politeknik Negeri Banjarmasin (Poliban)</option>
+                            <option value="Universitas Islam Kalimantan (UNISKA)">Universitas Islam Kalimantan (UNISKA)</option>
+                            <option value="UIN Antasari">UIN Antasari</option>
+                            <option value="Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)">Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="new-droppoint" class="block text-xs font-bold text-slate-700 uppercase mb-1">Campus Drop-Point COD</label>
+                        <input type="text" id="new-droppoint" name="dropPoint" required placeholder="Contoh: Kantin Pusat ULM"
+                            class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeAddModal()"
+                        class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md">
+                        Terbitkan ke Katalog
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         7. MODAL AKTIVITAS SAYA (#activity-modal)
+    ====================================================================== -->
+    <div id="activity-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto" onclick="handleBackdropClick(event, 'activity-modal')">
+        <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden fade-in my-8">
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="clipboard-list" class="w-5 h-5 text-emerald-400"></i>
+                    <h3 class="font-bold text-base sm:text-lg">Aktivitas &amp; Pengajuan Transaksi Saya</h3>
+                </div>
+                <button type="button" onclick="closeActivityModal()" aria-label="Tutup modal aktivitas" class="p-1.5 rounded-lg hover:bg-white/20 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="p-6">
+                <!-- Banner sukses saat modal dibuka otomatis setelah pengajuan transaksi -->
+                <div id="activity-success-banner" class="hidden mb-4 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-start gap-2.5">
+                    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+                    <div>
+                        <p class="text-xs font-extrabold text-emerald-900 uppercase tracking-wide">Pengajuan Berhasil Dikirim</p>
+                        <p class="text-xs text-emerald-800 mt-0.5">Detail pengajuan terbaru kamu sudah tersimpan dan tercantum di bagian teratas daftar ini.</p>
+                    </div>
+                </div>
+
+                <div id="activity-list" class="space-y-3 max-h-[58vh] overflow-y-auto pr-1">
+                    <!-- Daftar transaksi dirender via JS -->
+                </div>
+                <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <span class="text-xs text-slate-500">Data tersimpan otomatis di browser kamu.</span>
+                    <button type="button" onclick="closeActivityModal()"
+                        class="px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         JAVASCRIPT LOGIC, PERSISTENSI LOCALSTORAGE & DATA DUMMY
+    ====================================================================== -->
+    <script>
+        // Kunci localStorage
+        const STORAGE_KEYS = {
+            ITEMS: 'campus-mart-items-v1',
+            ACTIVITIES: 'campus-mart-activities-v1',
+            KTM: 'campus-mart-ktm-v1'
+        };
+
+        // Data Awal 9 Barang Mahasiswa dari 5 Kampus di Banjarmasin
+        const DEFAULT_ITEMS = [
+            {
+                id: 1,
+                name: "Meja Belajar Lipat Kayu Minimalis",
+                type: "Jual Beli",
+                category: "Perlengkapan Kos",
+                priceNumeric: 65000,
+                priceDisplay: "Rp65.000",
+                unitLabel: "",
+                condition: "Mulus 90% (Bekas Kos)",
+                seller: "Nia Rahmayanti",
+                campus: "Universitas Lambung Mangkurat (ULM)",
+                dropPoint: "Kantin Pusat ULM",
+                icon: "table",
+                bgGradient: "from-emerald-50 to-teal-100",
+                iconColor: "text-emerald-600"
+            },
+            {
+                id: 2,
+                name: "Kalkulator Saintifik Casio fx-991EX",
+                type: "Sewa",
+                category: "Buku & Alat Kuliah",
+                priceNumeric: 15000,
+                priceDisplay: "Rp15.000 / minggu",
+                unitLabel: "minggu",
+                condition: "Normal 100% + Baterai Baru",
+                seller: "Fitri Ariyanti",
+                campus: "Politeknik Negeri Banjarmasin (Poliban)",
+                dropPoint: "Perpustakaan Poliban",
+                icon: "calculator",
+                bgGradient: "from-blue-50 to-indigo-100",
+                iconColor: "text-blue-600"
+            },
+            {
+                id: 3,
+                name: "Buku Pengantar Akuntansi 1 & 2 (Edisi Terbaru)",
+                type: "Barter",
+                category: "Buku & Alat Kuliah",
+                priceNumeric: 0,
+                priceDisplay: "Barter: Buku Perpajakan / Flashdisk 32GB",
+                unitLabel: "",
+                condition: "Terawat, Tanpa Coretan",
+                seller: "Sumiyati",
+                campus: "Universitas Islam Kalimantan (UNISKA)",
+                dropPoint: "Gerbang Utama UNISKA",
+                icon: "book-open",
+                bgGradient: "from-purple-50 to-fuchsia-100",
+                iconColor: "text-purple-600"
+            },
+            {
+                id: 4,
+                name: "Kasur Lipat Busa Inoac 90x200 cm",
+                type: "Jual Beli",
+                category: "Perlengkapan Kos",
+                priceNumeric: 180000,
+                priceDisplay: "Rp180.000",
+                unitLabel: "",
+                condition: "Empuk, Sarung Sudah Dicuci Bersih",
+                seller: "Muhammad Saddam",
+                campus: "Universitas Lambung Mangkurat (ULM)",
+                dropPoint: "Bundaran Fakultas Ekonomi ULM",
+                icon: "bed",
+                bgGradient: "from-emerald-50 to-teal-100",
+                iconColor: "text-emerald-600"
+            },
+            {
+                id: 5,
+                name: "Jas Laboratorium Lengan Panjang Ukuran L",
+                type: "Sewa",
+                category: "Praktikum & Hobi",
+                priceNumeric: 10000,
+                priceDisplay: "Rp10.000 / 3 hari",
+                unitLabel: "paket (3 hari)",
+                condition: "Putih Bersih & Wangi Laundry",
+                seller: "Aulia Rahma",
+                campus: "Universitas Muhammadiyah Banjarmasin (UM Banjarmasin)",
+                dropPoint: "Lobby Utama Kampus UM",
+                icon: "shirt",
+                bgGradient: "from-blue-50 to-indigo-100",
+                iconColor: "text-blue-600"
+            },
+            {
+                id: 6,
+                name: "Kipas Angin Meja Miyako 9 Inch",
+                type: "Barter",
+                category: "Elektronik",
+                priceNumeric: 0,
+                priceDisplay: "Barter: Rak Sepatu Susun / Lampu Belajar",
+                unitLabel: "",
+                condition: "Angin Kencang, 2 Kecepatan Normal",
+                seller: "Muhammad Maulidi",
+                campus: "UIN Antasari",
+                dropPoint: "Masjid Kampus UIN Antasari",
+                icon: "fan",
+                bgGradient: "from-purple-50 to-fuchsia-100",
+                iconColor: "text-purple-600"
+            },
+            {
+                id: 7,
+                name: "Lampu Meja Belajar LED Rechargeable",
+                type: "Jual Beli",
+                category: "Elektronik",
+                priceNumeric: 35000,
+                priceDisplay: "Rp35.000",
+                unitLabel: "",
+                condition: "3 Mode Cahaya + Kabel USB",
+                seller: "Rizky Pratama",
+                campus: "Politeknik Negeri Banjarmasin (Poliban)",
+                dropPoint: "Kantin Teknik Poliban",
+                icon: "lamp-desk",
+                bgGradient: "from-emerald-50 to-teal-100",
+                iconColor: "text-emerald-600"
+            },
+            {
+                id: 8,
+                name: "Rice Cooker Mini 0.8L Cosmos (Cocok Anak Kos)",
+                type: "Jual Beli",
+                category: "Elektronik",
+                priceNumeric: 95000,
+                priceDisplay: "Rp95.000",
+                unitLabel: "",
+                condition: "Panci Anti Lengket Mulus",
+                seller: "Muhammad Arifin",
+                campus: "Universitas Lambung Mangkurat (ULM)",
+                dropPoint: "Perpustakaan Pusat ULM",
+                icon: "utensils",
+                bgGradient: "from-emerald-50 to-teal-100",
+                iconColor: "text-emerald-600"
+            },
+            {
+                id: 9,
+                name: "Tripod Kamera & Ring Light Konten Tugas",
+                type: "Sewa",
+                category: "Praktikum & Hobi",
+                priceNumeric: 12000,
+                priceDisplay: "Rp12.000 / hari",
+                unitLabel: "hari",
+                condition: "Tinggi Max 160cm + Holder HP",
+                seller: "Dina Safitri",
+                campus: "Universitas Islam Kalimantan (UNISKA)",
+                dropPoint: "Taman Kampus UNISKA",
+                icon: "camera",
+                bgGradient: "from-blue-50 to-indigo-100",
+                iconColor: "text-blue-600"
+            }
+        ];
+
+        // State Aplikasi
+        let isKtmVerified = false;
+        let currentTypeFilter = 'Semua';
+        let selectedItemForTx = null;
+        let itemsData = [];
+        let myActivities = [];
+        let lastSubmittedActivityId = null;
+
+        // Helper aman untuk Lucide Icons
+        function refreshIcons() {
+            try {
+                if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                    window.lucide.createIcons();
+                }
+            } catch (err) {
+                // Abaikan jika ikon gagal diinisialisasi
+            }
+        }
+
+        // Helper aman untuk escaping teks HTML
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Helper aman untuk membaca & menyimpan localStorage
+        function readStorage(key, fallback) {
+            try {
+                const raw = window.localStorage.getItem(key);
+                if (raw === null) return fallback;
+                return JSON.parse(raw);
+            } catch (err) {
+                return fallback;
+            }
+        }
+
+        function writeStorage(key, value) {
+            try {
+                window.localStorage.setItem(key, JSON.stringify(value));
+            } catch (err) {
+                // Abaikan jika localStorage penuh / mode privat
+            }
+        }
+
+        function persistAllState() {
+            writeStorage(STORAGE_KEYS.ITEMS, itemsData);
+            writeStorage(STORAGE_KEYS.ACTIVITIES, myActivities);
+            writeStorage(STORAGE_KEYS.KTM, isKtmVerified);
+        }
+
+        function loadStateFromStorage() {
+            const storedItems = readStorage(STORAGE_KEYS.ITEMS, null);
+            if (Array.isArray(storedItems) && storedItems.length > 0) {
+                itemsData = storedItems;
+            } else {
+                itemsData = DEFAULT_ITEMS.map(item => ({ ...item }));
+                writeStorage(STORAGE_KEYS.ITEMS, itemsData);
+            }
+
+            const storedActivities = readStorage(STORAGE_KEYS.ACTIVITIES, null);
+            if (Array.isArray(storedActivities)) {
+                myActivities = storedActivities;
+            } else {
+                myActivities = [];
+                writeStorage(STORAGE_KEYS.ACTIVITIES, myActivities);
+            }
+
+            const storedKtm = readStorage(STORAGE_KEYS.KTM, null);
+            if (typeof storedKtm === 'boolean') {
+                isKtmVerified = storedKtm;
+            } else {
+                isKtmVerified = false;
+                writeStorage(STORAGE_KEYS.KTM, isKtmVerified);
+            }
+        }
+
+        // Format Rupiah
+        function formatRupiah(angka) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(angka);
+        }
+
+        // Toast Notification
+        function showToast(title, message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-slate-900 border-emerald-500 text-white',
+                info: 'bg-slate-900 border-blue-500 text-white',
+                warning: 'bg-slate-900 border-amber-500 text-white'
+            };
+
+            const iconName = type === 'success' ? 'check-circle-2' : (type === 'warning' ? 'shield-alert' : 'info');
+            const iconColor = type === 'success' ? 'text-emerald-400' : (type === 'warning' ? 'text-amber-400' : 'text-blue-400');
+
+            toast.className = `pointer-events-auto flex items-start gap-3 p-4 rounded-2xl border-l-4 shadow-xl max-w-sm fade-in ${colors[type]}`;
+            toast.innerHTML = `
+                <i data-lucide="${iconName}" class="w-5 h-5 ${iconColor} shrink-0 mt-0.5"></i>
+                <div>
+                    <h4 class="text-xs font-bold tracking-wide uppercase">${escapeHtml(title)}</h4>
+                    <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">${escapeHtml(message)}</p>
+                </div>
+            `;
+
+            container.appendChild(toast);
+            refreshIcons();
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3800);
+        }
+
+        // Update tampilan tombol Verifikasi KTM sesuai state
+        function renderKtmButton() {
+            const btn = document.getElementById('btn-verify-ktm');
+            const icon = document.getElementById('ktm-icon');
+            const text = document.getElementById('ktm-text');
+            const textMobile = document.getElementById('ktm-text-mobile');
+
+            if (isKtmVerified) {
+                btn.className = "flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-bold border transition-all duration-200 bg-emerald-50 text-emerald-700 border-emerald-300 shadow-sm";
+                btn.setAttribute('aria-pressed', 'true');
+                icon.setAttribute('data-lucide', 'badge-check');
+                icon.className = "w-4 h-4 text-emerald-600 shrink-0";
+                text.textContent = "KTM Terverifikasi (.ac.id)";
+                textMobile.textContent = "Terverifikasi";
+            } else {
+                btn.className = "flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold border transition-all duration-200 bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100";
+                btn.setAttribute('aria-pressed', 'false');
+                icon.setAttribute('data-lucide', 'shield-alert');
+                icon.className = "w-4 h-4 text-amber-600 shrink-0";
+                text.textContent = "Belum Verifikasi KTM";
+                textMobile.textContent = "Verifikasi";
+            }
+            refreshIcons();
+        }
+
+        // Toggle Simulasi Verifikasi KTM
+        function toggleKtmVerification() {
+            isKtmVerified = !isKtmVerified;
+            persistAllState();
+            renderKtmButton();
+
+            if (isKtmVerified) {
+                showToast("Akun Mahasiswa Terverifikasi!", "KTM & email kampus (.ac.id) aktif. Kamu sekarang bisa pasang barang dan mengajukan sewa/barter.", "success");
+            } else {
+                showToast("Status Verifikasi Dinonaktifkan", "Mode simulasi tamu aktif. Klik lagi untuk mengaktifkan badge KTM Mahasiswa.", "warning");
+            }
+        }
+
+        // Perbarui label jumlah pada tombol filter "Semua (N)" tanpa tanda kurung ganda
+        function updateAllPillCount() {
+            const allPill = document.getElementById('pill-all');
+            if (allPill) {
+                allPill.textContent = `Semua (${itemsData.length})`;
+            }
+        }
+
+        // Filter Tipe Transaksi
+        function setTypeFilter(type) {
+            currentTypeFilter = type;
+            document.querySelectorAll('.type-pill').forEach(btn => {
+                const btnType = btn.getAttribute('data-type');
+                if (btnType === type) {
+                    btn.className = "type-pill active px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white shadow-sm transition-all";
+                } else {
+                    if (btnType === 'Semua') {
+                        btn.className = "type-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all";
+                    } else if (btnType === 'Jual Beli') {
+                        btn.className = "type-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-all";
+                    } else if (btnType === 'Sewa') {
+                        btn.className = "type-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition-all";
+                    } else if (btnType === 'Barter') {
+                        btn.className = "type-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition-all";
+                    }
+                }
+            });
+            applyFilters();
+        }
+
+        // Reset Semua Filter
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('filter-category').value = 'Semua';
+            document.getElementById('filter-campus').value = 'Semua';
+            setTypeFilter('Semua');
+        }
+
+        // Terapkan Pencarian & Filter
+        function applyFilters() {
+            const keyword = document.getElementById('search-input').value.toLowerCase().trim();
+            const category = document.getElementById('filter-category').value;
+            const campus = document.getElementById('filter-campus').value;
+
+            const filtered = itemsData.filter(item => {
+                const matchKeyword = item.name.toLowerCase().includes(keyword) || 
+                                     item.priceDisplay.toLowerCase().includes(keyword) ||
+                                     item.campus.toLowerCase().includes(keyword) ||
+                                     item.dropPoint.toLowerCase().includes(keyword) ||
+                                     item.seller.toLowerCase().includes(keyword);
+                const matchType = currentTypeFilter === 'Semua' || item.type === currentTypeFilter;
+                const matchCategory = category === 'Semua' || item.category === category;
+                const matchCampus = campus === 'Semua' || item.campus === campus;
+
+                return matchKeyword && matchType && matchCategory && matchCampus;
+            });
+
+            renderCatalog(filtered);
+        }
+
+        // Render Katalog Produk
+        function renderCatalog(items) {
+            const grid = document.getElementById('catalog-grid');
+            const emptyState = document.getElementById('empty-state');
+            const countEl = document.getElementById('result-count');
+
+            countEl.textContent = items.length;
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                refreshIcons();
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            items.forEach(item => {
+                let badgeClass = '';
+                let btnClass = '';
+                let btnText = '';
+                let btnIcon = '';
+
+                if (item.type === 'Jual Beli') {
+                    badgeClass = 'bg-emerald-600 text-white';
+                    btnClass = 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20';
+                    btnText = 'Beli Sekarang';
+                    btnIcon = 'shopping-cart';
+                } else if (item.type === 'Sewa') {
+                    badgeClass = 'bg-blue-600 text-white';
+                    btnClass = 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20';
+                    btnText = 'Ajukan Sewa';
+                    btnIcon = 'calendar-clock';
+                } else {
+                    badgeClass = 'bg-purple-600 text-white';
+                    btnClass = 'bg-purple-600 hover:bg-purple-700 text-white shadow-purple-600/20';
+                    btnText = 'Tawarkan Barter';
+                    btnIcon = 'repeat';
+                }
+
+                const card = document.createElement('article');
+                card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col overflow-hidden fade-in";
+                card.innerHTML = `
+                    <!-- Visual Header / Ilustrasi Kategori -->
+                    <div class="relative h-40 bg-gradient-to-br ${item.bgGradient} flex flex-col items-center justify-center p-4 border-b border-slate-100">
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider shadow-sm ${badgeClass}">
+                            ${escapeHtml(item.type)}
+                        </span>
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/90 text-slate-700 backdrop-blur-sm border border-slate-200/60">
+                            ${escapeHtml(item.category)}
+                        </span>
+
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-md flex items-center justify-center ${item.iconColor} mb-2">
+                            <i data-lucide="${escapeHtml(item.icon || 'package')}" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-[11px] font-medium text-slate-600 bg-white/80 px-2.5 py-0.5 rounded-full">
+                            ${escapeHtml(item.condition)}
+                        </span>
+                    </div>
+
+                    <!-- Konten Kartu -->
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-base leading-snug mb-1.5">
+                                ${escapeHtml(item.name)}
+                            </h3>
+                            <div class="text-sm sm:text-base font-extrabold ${item.type === 'Barter' ? 'text-purple-700' : (item.type === 'Sewa' ? 'text-blue-700' : 'text-emerald-700')} mb-4">
+                                ${escapeHtml(item.priceDisplay)}
+                            </div>
+                        </div>
+
+                        <!-- Info Mahasiswa, Kampus & Drop-Point -->
+                        <div class="space-y-2 pt-3 border-t border-slate-100 text-xs">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="flex items-center gap-1.5 font-semibold text-slate-800 min-w-0">
+                                    <i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                                    <span class="truncate">${escapeHtml(item.seller)}</span>
+                                </div>
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold shrink-0">
+                                    <i data-lucide="badge-check" class="w-3 h-3"></i> KTM Terverifikasi
+                                </span>
+                            </div>
+
+                            <div class="flex items-start gap-1.5 text-slate-600">
+                                <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"></i>
+                                <span>${escapeHtml(item.campus)}</span>
+                            </div>
+
+                            <div class="flex items-start gap-1.5 text-slate-600">
+                                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5"></i>
+                                <span>Drop-Point: <strong class="text-slate-800">${escapeHtml(item.dropPoint)}</strong></span>
+                            </div>
+
+                            <!-- Tombol Aksi -->
+                            <div class="pt-3">
+                                <button type="button" onclick="openTransactionModal(${item.id})"
+                                    class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-all ${btnClass}">
+                                    <i data-lucide="${btnIcon}" class="w-4 h-4"></i>
+                                    <span>${btnText}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            refreshIcons();
+        }
+
+        // =====================================================================
+        // RENDER PANEL RINGKASAN "PENGAJUAN TRANSAKSI TERBARU" DI HALAMAN UTAMA
+        // =====================================================================
+        function renderLatestActivityPanel() {
+            const panel = document.getElementById('latest-activity-panel');
+            const content = document.getElementById('latest-activity-content');
+            const countEl = document.getElementById('latest-panel-count');
+            const badge = document.getElementById('activity-badge');
+
+            badge.textContent = myActivities.length;
+            countEl.textContent = myActivities.length;
+
+            if (myActivities.length === 0) {
+                panel.classList.add('hidden');
+                content.innerHTML = '';
+                return;
+            }
+
+            const latest = myActivities[0];
+            const badgeStyle = latest.type === 'Jual Beli'
+                ? 'bg-emerald-100 text-emerald-800'
+                : (latest.type === 'Sewa' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800');
+
+            let extraRows = '';
+            if (latest.type === 'Barter' && latest.barterOffer) {
+                extraRows = `
+                    <div class="p-2.5 rounded-xl bg-purple-50 border border-purple-200 text-xs text-purple-900">
+                        <span class="font-bold">Tawaran Barter:</span> ${escapeHtml(latest.barterOffer)}
+                        ${latest.barterCondition ? `<span class="text-purple-700"> (${escapeHtml(latest.barterCondition)})</span>` : ''}
+                    </div>
+                `;
+            } else if (latest.type === 'Sewa') {
+                extraRows = `
+                    <div class="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-900">
+                        <span class="font-bold">Rincian Sewa:</span> ${escapeHtml(latest.detail)}
+                    </div>
+                `;
+            } else {
+                extraRows = `
+                    <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900">
+                        <span class="font-bold">Rincian Pembelian:</span> ${escapeHtml(latest.detail)}
+                    </div>
+                `;
+            }
+
+            content.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                    <div class="space-y-2 flex-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase ${badgeStyle}">${escapeHtml(latest.type)}</span>
+                            <h3 class="text-sm sm:text-base font-extrabold text-slate-900">${escapeHtml(latest.itemName)}</h3>
+                            <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
+                                • ${escapeHtml(latest.status)} (${escapeHtml(latest.time)})
+                            </span>
+                        </div>
+                        ${extraRows}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 pt-1">
+                            <div><span class="font-semibold text-slate-800">Penjual:</span> ${escapeHtml(latest.seller)} (${escapeHtml(latest.campus)})</div>
+                            <div><span class="font-semibold text-slate-800">Campus Drop-Point:</span> ${escapeHtml(latest.dropPoint)}</div>
+                            <div class="sm:col-span-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-700">
+                                <span class="font-bold text-slate-900">Catatan Jadwal:</span> ${escapeHtml(latest.note)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            panel.classList.remove('hidden');
+            refreshIcons();
+        }
+
+        // =====================================================================
+        // MODAL TRANSAKSI (#tx-modal dengan #tx-form)
+        // =====================================================================
+        function openTransactionModal(itemId) {
+            const item = itemsData.find(i => i.id === itemId);
+            if (!item) return;
+            selectedItemForTx = item;
+
+            const modal = document.getElementById('tx-modal');
+            const header = document.getElementById('tx-modal-header');
+            const title = document.getElementById('tx-modal-title');
+            const badge = document.getElementById('tx-item-badge');
+            const nameEl = document.getElementById('tx-item-name');
+            const priceEl = document.getElementById('tx-item-price');
+            const sellerEl = document.getElementById('tx-item-seller');
+            const dynamicFields = document.getElementById('tx-dynamic-fields');
+            const dropPointSelect = document.getElementById('tx-droppoint');
+            const submitBtn = document.getElementById('tx-submit-btn');
+
+            nameEl.textContent = item.name;
+            priceEl.textContent = item.priceDisplay;
+            sellerEl.textContent = `${item.seller} (KTM Terverifikasi) • ${item.campus}`;
+
+            // Isi pilihan Drop-Point
+            dropPointSelect.innerHTML = `
+                <option value="${escapeHtml(item.dropPoint)} (Rekomendasi Penjual)">${escapeHtml(item.dropPoint)} (Rekomendasi Penjual)</option>
+                <option value="Kantin Pusat ULM">Kantin Pusat ULM</option>
+                <option value="Perpustakaan Poliban">Perpustakaan Poliban</option>
+                <option value="Gerbang Utama UNISKA">Gerbang Utama UNISKA</option>
+                <option value="Masjid Kampus UIN Antasari">Masjid Kampus UIN Antasari</option>
+                <option value="Lobby Utama UM Banjarmasin">Lobby Utama UM Banjarmasin</option>
+            `;
+
+            if (item.type === 'Jual Beli') {
+                header.className = "px-6 py-4 bg-emerald-600 text-white flex items-center justify-between";
+                title.textContent = "Konfirmasi Pembelian Barang";
+                badge.className = "inline-block px-2 py-0.5 text-[10px] font-bold rounded uppercase mb-1 bg-emerald-100 text-emerald-800";
+                badge.textContent = "JUAL BELI";
+                priceEl.className = "text-xs font-bold text-emerald-700";
+                submitBtn.className = "px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md transition-all";
+                submitBtn.textContent = "Konfirmasi Beli Sekarang";
+
+                dynamicFields.innerHTML = `
+                    <div>
+                        <label for="tx-payment" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Metode Pembayaran</label>
+                        <select id="tx-payment" name="paymentMethod" class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="COD Tunai di Campus Drop-Point">COD Tunai di Campus Drop-Point (Cek Barang Dulu)</option>
+                            <option value="QRIS / Transfer E-Wallet (Dana/GoPay/ShopeePay)">QRIS / Transfer E-Wallet saat Ketemu</option>
+                        </select>
+                    </div>
+                    <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs">
+                        <span class="font-semibold text-emerald-800">Total Pembayaran (Bebas Ongkir):</span>
+                        <span class="text-sm font-extrabold text-emerald-700">${escapeHtml(item.priceDisplay)}</span>
+                    </div>
+                `;
+            } else if (item.type === 'Sewa') {
+                header.className = "px-6 py-4 bg-blue-600 text-white flex items-center justify-between";
+                title.textContent = "Pengajuan Sewa Barang Mahasiswa";
+                badge.className = "inline-block px-2 py-0.5 text-[10px] font-bold rounded uppercase mb-1 bg-blue-100 text-blue-800";
+                badge.textContent = "SEWA";
+                priceEl.className = "text-xs font-bold text-blue-700";
+                submitBtn.className = "px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-all";
+                submitBtn.textContent = "Kirim Pengajuan Sewa";
+
+                const deposit = 20000;
+                const unitLabel = item.unitLabel || 'Periode';
+                dynamicFields.innerHTML = `
+                    <div>
+                        <label for="tx-rent-duration" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Durasi Sewa (${escapeHtml(unitLabel)})</label>
+                        <select id="tx-rent-duration" name="rentDuration" onchange="recalculateRent(${item.priceNumeric}, ${deposit})"
+                            class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="1">1 ${escapeHtml(unitLabel)}</option>
+                            <option value="2">2 ${escapeHtml(unitLabel)}</option>
+                            <option value="3">3 ${escapeHtml(unitLabel)}</option>
+                            <option value="4">4 ${escapeHtml(unitLabel)}</option>
+                        </select>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200 space-y-1.5 text-xs">
+                        <div class="flex justify-between text-slate-600">
+                            <span>Biaya Sewa:</span>
+                            <span id="rent-base-cost" class="font-semibold text-slate-800">${formatRupiah(item.priceNumeric)}</span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Deposit Keamanan (Dikembalikan saat barang pulang):</span>
+                            <span class="font-semibold text-slate-800">${formatRupiah(deposit)}</span>
+                        </div>
+                        <div class="flex justify-between pt-1.5 border-t border-blue-200 text-blue-900 font-bold text-sm">
+                            <span>Total Bayar Awal:</span>
+                            <span id="rent-total-cost">${formatRupiah(item.priceNumeric + deposit)}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                header.className = "px-6 py-4 bg-purple-600 text-white flex items-center justify-between";
+                title.textContent = "Ajukan Penawaran Barter";
+                badge.className = "inline-block px-2 py-0.5 text-[10px] font-bold rounded uppercase mb-1 bg-purple-100 text-purple-800";
+                badge.textContent = "BARTER";
+                priceEl.className = "text-xs font-bold text-purple-700";
+                submitBtn.className = "px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-md transition-all";
+                submitBtn.textContent = "Kirim Tawaran Barter";
+
+                dynamicFields.innerHTML = `
+                    <div>
+                        <label for="tx-barter-offer" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Barang yang Kamu Tawarkan untuk Barter</label>
+                        <input type="text" id="tx-barter-offer" name="barterOffer" required placeholder="Contoh: Buku Perpajakan Lanjutan Edisi 2024 (Mulus)"
+                            class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div>
+                        <label for="tx-barter-condition" class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Kondisi Barang Tawaranmu</label>
+                        <select id="tx-barter-condition" name="barterCondition" class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option value="Sangat Mulus (90-95%)">Sangat Mulus (90-95%)</option>
+                            <option value="Layak Pakai & Normal (80-85%)">Layak Pakai &amp; Normal (80-85%)</option>
+                        </select>
+                    </div>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+            refreshIcons();
+        }
+
+        function recalculateRent(basePrice, deposit) {
+            const duration = parseInt(document.getElementById('tx-rent-duration').value, 10) || 1;
+            const rentCost = basePrice * duration;
+            const total = rentCost + deposit;
+            document.getElementById('rent-base-cost').textContent = formatRupiah(rentCost);
+            document.getElementById('rent-total-cost').textContent = formatRupiah(total);
+        }
+
+        function closeTransactionModal() {
+            document.getElementById('tx-modal').classList.add('hidden');
+            document.getElementById('tx-form').reset();
+        }
+
+        function submitTransaction(e) {
+            e.preventDefault();
+            if (!selectedItemForTx) return;
+
+            const dropPoint = document.getElementById('tx-droppoint').value;
+            const note = document.getElementById('tx-note').value.trim();
+
+            let detailSummary = '';
+            let paymentMethod = '';
+            let rentDuration = null;
+            let rentBaseCost = null;
+            let rentDeposit = null;
+            let rentTotalCost = null;
+            let barterOffer = '';
+            let barterCondition = '';
+
+            if (selectedItemForTx.type === 'Jual Beli') {
+                paymentMethod = document.getElementById('tx-payment').value;
+                detailSummary = `${selectedItemForTx.priceDisplay} • ${paymentMethod}`;
+            } else if (selectedItemForTx.type === 'Sewa') {
+                const dur = parseInt(document.getElementById('tx-rent-duration').value, 10) || 1;
+                const unitLabel = selectedItemForTx.unitLabel || 'Periode';
+                rentDuration = `${dur} ${unitLabel}`;
+                rentBaseCost = formatRupiah(selectedItemForTx.priceNumeric * dur);
+                rentDeposit = formatRupiah(20000);
+                rentTotalCost = formatRupiah(selectedItemForTx.priceNumeric * dur + 20000);
+                detailSummary = `Durasi ${rentDuration} (Biaya Sewa ${rentBaseCost} + Deposit ${rentDeposit}) • Total ${rentTotalCost}`;
+            } else {
+                barterOffer = document.getElementById('tx-barter-offer').value.trim();
+                barterCondition = document.getElementById('tx-barter-condition').value;
+                detailSummary = `Tawaran Barter: ${barterOffer} (${barterCondition})`;
+            }
+
+            const newActivity = {
+                id: Date.now(),
+                itemName: selectedItemForTx.name,
+                type: selectedItemForTx.type,
+                seller: selectedItemForTx.seller,
+                campus: selectedItemForTx.campus,
+                dropPoint: dropPoint,
+                detail: detailSummary,
+                paymentMethod: paymentMethod,
+                rentDuration: rentDuration,
+                rentBaseCost: rentBaseCost,
+                rentDeposit: rentDeposit,
+                rentTotalCost: rentTotalCost,
+                barterOffer: barterOffer,
+                barterCondition: barterCondition,
+                note: note,
+                status: 'Menunggu Pertemuan COD',
+                time: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+            };
+
+            myActivities.unshift(newActivity);
+            lastSubmittedActivityId = newActivity.id;
+
+            // Simpan ke localStorage
+            persistAllState();
+
+            // Tutup modal transaksi & reset form
+            closeTransactionModal();
+
+            // Perbarui panel "Pengajuan Transaksi Terbaru" di halaman utama agar tetap terlihat bahkan setelah modal ditutup
+            renderLatestActivityPanel();
+
+            // Segera buka modal Aktivitas Saya dengan highlight "Pengajuan Berhasil Dikirim"
+            openActivityModal(true);
+
+            showToast(
+                `${newActivity.type} Berhasil Diajukan!`,
+                `Pengajuan untuk "${newActivity.itemName}" tersimpan. Silakan temui ${newActivity.seller} di ${dropPoint}.`,
+                'success'
+            );
+        }
+
+        // =====================================================================
+        // MODAL TAMBAH BARANG BARU (#add-modal dengan #add-form)
+        // =====================================================================
+        function openAddModal() {
+            document.getElementById('add-modal').classList.remove('hidden');
+            updateNewItemPriceLabel();
+            refreshIcons();
+        }
+
+        function closeAddModal() {
+            document.getElementById('add-modal').classList.add('hidden');
+        }
+
+        function updateNewItemPriceLabel() {
+            const type = document.getElementById('new-type').value;
+            const priceWrapper = document.getElementById('new-price-wrapper');
+            const barterWrapper = document.getElementById('new-barter-wrapper');
+            const priceLabel = document.getElementById('new-price-label');
+            const priceInput = document.getElementById('new-price-num');
+            const barterInput = document.getElementById('new-barter-target');
+
+            if (type === 'Barter') {
+                priceWrapper.classList.add('hidden');
+                barterWrapper.classList.remove('hidden');
+                priceInput.required = false;
+                barterInput.required = true;
+            } else {
+                priceWrapper.classList.remove('hidden');
+                barterWrapper.classList.add('hidden');
+                priceInput.required = true;
+                barterInput.required = false;
+                priceLabel.textContent = type === 'Sewa' ? 'Tarif Sewa per Minggu (Rp)' : 'Harga Jual (Rp)';
+            }
+        }
+
+        function submitNewItem(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('new-name').value.trim();
+            const type = document.getElementById('new-type').value;
+            const category = document.getElementById('new-category').value;
+            const seller = document.getElementById('new-seller').value.trim();
+            const condition = document.getElementById('new-condition').value;
+            const campus = document.getElementById('new-campus').value;
+            const dropPoint = document.getElementById('new-droppoint').value.trim();
+
+            let priceNumeric = 0;
+            let priceDisplay = '';
+            let unitLabel = '';
+            let bgGradient = 'from-emerald-50 to-teal-100';
+            let iconColor = 'text-emerald-600';
+
+            if (type === 'Jual Beli') {
+                priceNumeric = parseInt(document.getElementById('new-price-num').value, 10) || 50000;
+                priceDisplay = formatRupiah(priceNumeric);
+            } else if (type === 'Sewa') {
+                priceNumeric = parseInt(document.getElementById('new-price-num').value, 10) || 15000;
+                priceDisplay = `${formatRupiah(priceNumeric)} / minggu`;
+                unitLabel = 'minggu';
+                bgGradient = 'from-blue-50 to-indigo-100';
+                iconColor = 'text-blue-600';
+            } else {
+                const target = document.getElementById('new-barter-target').value.trim();
+                priceDisplay = `Barter: ${target}`;
+                bgGradient = 'from-purple-50 to-fuchsia-100';
+                iconColor = 'text-purple-600';
+            }
+
+            const categoryIcons = {
+                'Perlengkapan Kos': 'home',
+                'Buku & Alat Kuliah': 'book-open',
+                'Elektronik': 'zap',
+                'Praktikum & Hobi': 'flask-conical'
+            };
+
+            const newItem = {
+                id: Date.now(),
+                name,
+                type,
+                category,
+                priceNumeric,
+                priceDisplay,
+                unitLabel,
+                condition,
+                seller,
+                campus,
+                dropPoint,
+                icon: categoryIcons[category] || 'package',
+                bgGradient,
+                iconColor
+            };
+
+            itemsData.unshift(newItem);
+            persistAllState();
+
+            document.getElementById('add-form').reset();
+            document.getElementById('new-seller').value = 'Muhammad Arifin (Tim F)';
+            closeAddModal();
+            updateAllPillCount();
+            resetFilters();
+
+            showToast("Barang Berhasil Diterbitkan!", `"${name}" sekarang tampil di katalog lintas kampus CAMPUS MART.`, "success");
+        }
+
+        // =====================================================================
+        // MODAL AKTIVITAS SAYA (#activity-modal)
+        // =====================================================================
+        function openActivityModal(isJustSubmitted = false) {
+            const modal = document.getElementById('activity-modal');
+            const list = document.getElementById('activity-list');
+            const successBanner = document.getElementById('activity-success-banner');
+
+            if (isJustSubmitted && myActivities.length > 0) {
+                successBanner.classList.remove('hidden');
+            } else {
+                successBanner.classList.add('hidden');
+            }
+
+            if (myActivities.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-10 px-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+                            <i data-lucide="inbox" class="w-6 h-6"></i>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700">Belum ada transaksi atau penawaran</p>
+                        <p class="text-xs text-slate-500 mt-1">Klik "Beli Sekarang", "Ajukan Sewa", atau "Tawarkan Barter" pada barang di katalog untuk mencoba simulasi.</p>
+                    </div>
+                `;
+            } else {
+                list.innerHTML = myActivities.map((act, index) => {
+                    const isHighlighted = (isJustSubmitted && index === 0) || (lastSubmittedActivityId && act.id === lastSubmittedActivityId && index === 0);
+                    const badgeStyle = act.type === 'Jual Beli' 
+                        ? 'bg-emerald-100 text-emerald-800' 
+                        : (act.type === 'Sewa' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800');
+
+                    let extraDetailBlock = '';
+                    if (act.type === 'Barter' && act.barterOffer) {
+                        extraDetailBlock = `
+                            <div class="text-xs bg-purple-50 border border-purple-200 rounded-lg px-3 py-2 text-purple-900">
+                                <span class="font-bold">Tawaran Barter:</span> ${escapeHtml(act.barterOffer)}
+                                ${act.barterCondition ? `<span class="text-purple-700"> • Kondisi: ${escapeHtml(act.barterCondition)}</span>` : ''}
+                            </div>
+                        `;
+                    } else if (act.type === 'Sewa') {
+                        extraDetailBlock = `
+                            <div class="text-xs bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 text-blue-900">
+                                <span class="font-bold">Rincian Sewa:</span> ${escapeHtml(act.detail)}
+                            </div>
+                        `;
+                    } else {
+                        extraDetailBlock = `
+                            <div class="text-xs bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 text-emerald-900">
+                                <span class="font-bold">Rincian Pembelian:</span> ${escapeHtml(act.detail)}
+                            </div>
+                        `;
+                    }
+
+                    return `
+                        <div class="p-4 rounded-xl border ${isHighlighted ? 'border-emerald-400 bg-emerald-50/40 ring-2 ring-emerald-200' : 'border-slate-200 bg-slate-50/70'} space-y-2.5">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase ${badgeStyle}">${escapeHtml(act.type)}</span>
+                                    ${isHighlighted ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-600 text-white uppercase tracking-wide">Pengajuan Berhasil Dikirim</span>' : ''}
+                                </div>
+                                <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
+                                    • ${escapeHtml(act.status)} (${escapeHtml(act.time)})
+                                </span>
+                            </div>
+                            <h4 class="font-bold text-sm text-slate-900">${escapeHtml(act.itemName)}</h4>
+                            ${extraDetailBlock}
+                            <div class="text-xs text-slate-600 pt-1.5 border-t border-slate-200/80 space-y-1">
+                                <div>Penjual: <strong class="text-slate-800">${escapeHtml(act.seller)}</strong> (${escapeHtml(act.campus)})</div>
+                                <div>Campus Drop-Point: <strong class="text-slate-800">${escapeHtml(act.dropPoint)}</strong></div>
+                                <div class="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 mt-1">
+                                    <span class="font-bold text-slate-900">Catatan Jadwal:</span> ${escapeHtml(act.note)}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            modal.classList.remove('hidden');
+            refreshIcons();
+        }
+
+        function closeActivityModal() {
+            document.getElementById('activity-modal').classList.add('hidden');
+        }
+
+        // Tutup modal jika klik area backdrop luar
+        function handleBackdropClick(event, modalId) {
+            if (event.target && event.target.id === modalId) {
+                if (modalId === 'tx-modal') closeTransactionModal();
+                if (modalId === 'add-modal') closeAddModal();
+                if (modalId === 'activity-modal') closeActivityModal();
+            }
+        }
+
+        // Tutup modal dengan tombol Escape
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeTransactionModal();
+                closeAddModal();
+                closeActivityModal();
+            }
+        });
+
+        // Inisialisasi saat halaman dimuat
+        window.onload = function () {
+            loadStateFromStorage();
+            renderKtmButton();
+            updateAllPillCount();
+            renderLatestActivityPanel();
+            applyFilters();
+            refreshIcons();
+        };
+    </script>
+</body>
+</html>
